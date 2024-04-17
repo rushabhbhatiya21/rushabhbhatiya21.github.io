@@ -1,8 +1,8 @@
-function fill_data(elementList, valList) {
+function fill_data(valList) {
     console.log("hello");
-    for(let i = 0; i < elementList.length; i++) {
-        console.log(elementList[i]);
-        document.querySelector('[aria-label=`${elementList[i}`]').value = valList[i];
-    }
+    document.querySelector('[aria-label=" Person Number"').value = valList[0];
+    //var elements = document.querySelector('[aria-label=" dd-mmm-yyyy"');
+    //elements[0].value = valList[1];
+    //elements[1].value = valList[2];
 }
 
