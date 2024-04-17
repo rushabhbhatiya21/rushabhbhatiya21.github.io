@@ -1,5 +1,5 @@
-function fill_data(id, val) {
+function fill_data(element, val) {
     console.log("hello");
-    console.log(id, val);
-    document.querySelector(id).value = val;
+    console.log(element, val);
+    element.value = val;
 }
