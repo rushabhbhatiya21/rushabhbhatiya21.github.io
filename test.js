@@ -5,3 +5,7 @@ function fill_data(valList) {
     document.querySelectorAll('[aria-label="dd-mmm-yyyy"')[1].value = valList[2];
 }
 
+function fill_person_number(id, val) {
+    document.querySelector(id).value = val;
+}
+
