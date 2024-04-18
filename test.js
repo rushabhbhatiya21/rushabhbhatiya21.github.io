@@ -25,12 +25,12 @@ function fill_person_number(id, val) {
     document.querySelector(id).value = val;
 }
 
-function fill_year(id, val) {
-    var currVal = parseInt(document.querySelector(id).value);
+function fill_year(val) {
+    var currVal = parseInt(document.querySelector('[id*="cd1::ys::content"]').value);
     var year = parseInt(val.split("-")[2]);
     var diff = currVal - year;
 
-    while (diff == 0) {
+    while (diff != 0) {
         if (diff > 0) {
             document.querySelector('[id*="cd1::ys::decrement"]').click();
             diff--;
