@@ -26,10 +26,28 @@ function fill_person_number(id, val) {
 }
 
 function fill_year(val) {
-    var currVal = parseInt(document.querySelector('[id*="cd1::ys::content"]').value);
+    var currYear = parseInt(document.querySelector('[id*="cd1::ys::content"]').value);
+    var currMonth = parseInt(document.querySelector('[id*="cd1\\:\\:mSel\\:\\:content"]').value);
+    var month_dict = {
+        "Jan": 0,
+        "Feb": 1,
+        "Mar": 2,
+        "Apr": 3,
+        "May": 4,
+        "Jun": 5,
+        "Jul": 6,
+        "Aug": 7,
+        "Sep": 8,
+        "Oct": 9,
+        "Nov": 10,
+        "Dec": 11,
+    }
     var year = parseInt(val.split("-")[2]);
-    var diff = currVal - year;
+    var month = month_dict[val.split("-")[1]];
+    var day = val.split("-")[0];
+    var diff = currYear - year;
 
+    //for year
     while (diff != 0) {
         if (diff > 0) {
             document.querySelector('[id*="cd1::ys::decrement"]').click();
@@ -40,4 +58,24 @@ function fill_year(val) {
             diff++;
         }
     }
+
+    //for month
+    diff = currMonth - month;
+    while (diff != 0) {
+        if (diff > 0) {
+            document.querySelector('[title="Previous Month"]').click();
+            diff--;
+        }
+        else {
+            document.querySelector('[title="Next Month"]').click();
+            diff++;
+        }
+    }
+
+    //for day
+    Array.from(document.getElementsByClassName('x12k')).forEach(cell => {
+    if(+cell.innerText == +day){
+        cell.click();
+    }
+})
 }
