@@ -5,10 +5,6 @@ function fill_data(valList) {
     document.querySelectorAll('[aria-label="dd-mmm-yyyy"')[1].value = valList[2];
 }
 
-function fill_person_number(id, val) {
-    document.querySelector(id).value = val;
-}
-
 // Function to wait for an element to be present
 function waitForElement(selector) {
     return new Promise((resolve, reject) => {
@@ -23,4 +19,24 @@ function waitForElement(selector) {
             }, 500); // Adjust the interval as needed
         }
     });
+}
+
+function fill_person_number(id, val) {
+    document.querySelector(id).value = val;
+}
+
+function fill_year(id, val) {
+    var currVal = document.querySelector(id).value;
+    var diff = currVal - val;
+
+    while (diff == 0) {
+        if (diff > 0) {
+            document.querySelector('[id*="cd1::ys::decrement"]').click();
+            diff--;
+        }
+        else {
+            document.querySelector('[id*="cd1::ys::increment"]').click();
+            diff++;
+        }
+    }
 }
