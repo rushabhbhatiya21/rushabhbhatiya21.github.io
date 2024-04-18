@@ -26,8 +26,9 @@ function fill_person_number(id, val) {
 }
 
 function fill_year(id, val) {
-    var currVal = document.querySelector(id).value;
-    var diff = currVal - val;
+    var currVal = parseInt(document.querySelector(id).value);
+    var year = parseInt(val.split("-")[2]);
+    var diff = currVal - year;
 
     while (diff == 0) {
         if (diff > 0) {
