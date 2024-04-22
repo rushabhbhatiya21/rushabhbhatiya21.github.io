@@ -23,6 +23,7 @@ function waitForElement(selector) {
 
 function fill_person_number(id, val) {
     document.querySelector(id).value = val;
+    console.log(val);
 }
 
 function fill_year(val) {
