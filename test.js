@@ -16,7 +16,7 @@ function waitForElement(selector) {
             // If not present, wait for a short interval and check again
             setTimeout(() => {
                 waitForElement(selector).then(resolve);
-            }, 5000); // Adjust the interval as needed
+            }, 1000); // Adjust the interval as needed
         }
     });
 }
