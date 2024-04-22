@@ -21,7 +21,7 @@ function waitForElement(selector) {
     });
 }
 
-function fill_person_number(id, val) {
+function fill_person_number(val) {
     document.querySelector('[aria-label=" Person Number"][id*="personName2Id"]').value = val;
     console.log(val);
 }
