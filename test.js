@@ -81,6 +81,41 @@ function fill_year(val) {
     })
 }
 
+function get_day_of_week(dateString) {
+    const parts = dateString.split('-');
+    const day = parseInt(parts[0], 10);
+    const monthAbbrev = parts[1];
+    const year = parseInt(parts[2], 10);
+
+    const monthAbbreviations = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const month = monthAbbreviations.findIndex(abbr => abbr === monthAbbrev);
+    const date = new Date(year, month, day);
+    return date.getDay();
+}
+
+//mapping of expenditure to tr attribute
+var expenditureMap = {
+  "Annual Leave": "0",
+  "Bank Holidays": "1",
+  "Contracted Hours - Employee": "2",
+  "Employee Volunteering and Fundraising": "3",
+  "Extra Hours - Employee": "4",
+  "Leavers/Joiners": "5",
+  "Mace Day": "6",
+  "Other Leave - Christmas Close Down": "7",
+  "Other Leave - Compassionate": "8",
+  "Other Leave - Jury Service": "9",
+  "Other Leave - Medical Appointments": "10",
+  "Other Leave - Paid": "11",
+  "Other Leave - Study Leave": "12",
+  "Other Leave - Unpaid": "13",
+  "Other Leave - Voluntary Reserve Forces Leave": "14",
+  "Parental Leave": "15",
+  "Sickness (Long Term) (GIP)": "16",
+  "Sickness (Short Term)": "17",
+  "Training": "18"
+}
+
 function set_expenditure(index, type) {
     return new Promise((resolve, reject) =>{
         waitForElement('[title="Search: Expenditure Type"]').then(() => {
