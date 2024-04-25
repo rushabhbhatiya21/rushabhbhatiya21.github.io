@@ -104,3 +104,10 @@ function set_expenditure(index, type) {
         });
     });
 }
+
+function set_hours_data(index, data) {
+    for(let i = startinDay; i <= endingDay; i++, counter++) {
+        document.querySelectorAll(`input[id*="\\:m${counter}\\:\\:content"]`)[index].value = data[i];
+    }
+}
+
