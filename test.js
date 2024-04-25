@@ -236,6 +236,9 @@ function set_project(index, project) {
             document.querySelector("[id*='_afrLovInternalQueryId\\:\\:mode']").click();
             return waitForElement('[id*="_afrLovInternalQueryId\\:operator0\\:\\:pop"] > li:nth-child(6)');
         }).then(() => {
+            document.querySelector('[id*="socMatrixAttributeNumber2\\:\\:_afrLovInternalQueryId\\:\\:reset"]');
+            return delay(500);
+        }).then(() => {
             document.querySelector('[id*="_afrLovInternalQueryId\\:operator0\\:\\:pop"] > li:nth-child(6)').click();
             document.querySelector('input[aria-label=" Display Value"]').value = project;
             document.querySelector("[id*='socMatrixAttributeNumber2\\:\\:_afrLovInternalQueryId\\:\\:search']").click(); // Click search
