@@ -274,7 +274,7 @@ function set_expenditure(index, type) {
 }
 
 async function set_hours_data(index, data) {
-    for(let i = startinDay; i <= endingDay; i++, counter++) {
+    for(let i = cardState["startingDay"]; i <= cardState["endingDay"]; i++, counter++) {
         document.querySelectorAll(`input[id*="\\:m${counter}\\:\\:content"]`)[index].value = data[i];
     }
 }
@@ -292,6 +292,9 @@ async function fill_row_data(project, task, exType, hourList) {
         .then(() => {
             console.log("here1");
             return set_task(index, task);
+        })
+        .then(() => {
+            return delay(1500);
         })
         .then(() => {
             console.log("here2");
