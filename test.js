@@ -93,27 +93,40 @@ function get_day_of_week(dateString) {
     return date.getDay();
 }
 
-//mapping of expenditure to tr attribute
-var expenditureMap = {
-  "Annual Leave": "0",
-  "Bank Holidays": "1",
-  "Contracted Hours - Employee": "2",
-  "Employee Volunteering and Fundraising": "3",
-  "Extra Hours - Employee": "4",
-  "Leavers/Joiners": "5",
-  "Mace Day": "6",
-  "Other Leave - Christmas Close Down": "7",
-  "Other Leave - Compassionate": "8",
-  "Other Leave - Jury Service": "9",
-  "Other Leave - Medical Appointments": "10",
-  "Other Leave - Paid": "11",
-  "Other Leave - Study Leave": "12",
-  "Other Leave - Unpaid": "13",
-  "Other Leave - Voluntary Reserve Forces Leave": "14",
-  "Parental Leave": "15",
-  "Sickness (Long Term) (GIP)": "16",
-  "Sickness (Short Term)": "17",
-  "Training": "18"
+// //mapping of expenditure to tr attribute
+// var expenditureMap = {
+//   "Annual Leave": "0",
+//   "Bank Holidays": "1",
+//   "Contracted Hours - Employee": "2",
+//   "Employee Volunteering and Fundraising": "3",
+//   "Extra Hours - Employee": "4",
+//   "Leavers/Joiners": "5",
+//   "Mace Day": "6",
+//   "Other Leave - Christmas Close Down": "7",
+//   "Other Leave - Compassionate": "8",
+//   "Other Leave - Jury Service": "9",
+//   "Other Leave - Medical Appointments": "10",
+//   "Other Leave - Paid": "11",
+//   "Other Leave - Study Leave": "12",
+//   "Other Leave - Unpaid": "13",
+//   "Other Leave - Voluntary Reserve Forces Leave": "14",
+//   "Parental Leave": "15",
+//   "Sickness (Long Term) (GIP)": "16",
+//   "Sickness (Short Term)": "17",
+//   "Training": "18"
+// }
+
+var absenseTypeMapping = {
+    "Annual Leave": "Annual Leave",
+    "Bank Holidays": "Bank Holidays",
+    "Mace Day": "Mace Day",
+    "Compassionate leave": "Other Leave - Compassionate",
+    "Jury Service": "Other Leave - Jury Service",
+    "Unpaid Leave": "Other Leave - Unpaid",
+    "Voluntary Reserve Forces Leave": "Other Leave - Voluntary Reserve Forces Leave",
+    "Maternity Leave": "Parental Leave",
+    "Sickness (Long Term) (GIP)": "Sickness-GIP",
+    "Sickness (Short Term)": "sickness"
 }
 
 var cardState = {
@@ -146,7 +159,7 @@ function set_card_state() {
                     dayArr[j-1] = true;
                 }
             }
-            let key = document.querySelectorAll('.x2hi span[id$="socMatrixAttributeNumber6"]')[i].innerText;
+            let key = absenseTypeMapping[document.querySelectorAll('.x2hi span[id$="socMatrixAttributeNumber6"]')[i].innerText];
             dict[key] = dayArr;
         }
         cardState["AbsentType"] = dict;
@@ -191,6 +204,7 @@ async function handle_data(excelDataString) {
         await fill_row_data(Project, Task, expanditureTask, excelHour);
     }
 }
+
 
 function set_project(index, project) {
         return new Promise((resolve, reject) => {
