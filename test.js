@@ -75,8 +75,12 @@ function fill_year(val) {
 
     //for day
     Array.from(document.getElementsByClassName('x12k')).forEach(cell => {
-    if(+cell.innerText == +day){
-        cell.click();
-    }
-})
+        if(+cell.innerText == +day){
+            cell.click();
+        }
+    })
+}
+
+function fillData(index, data) {
+    
 }
