@@ -26,7 +26,7 @@ function fill_person_number(val) {
     console.log(val);
 }
 
-function fill_year(val) {
+function fill_year(val, weekNo) {
     var currYear = parseInt(document.querySelector('[id*="cd1::ys::content"]').value);
     var currMonth = parseInt(document.querySelector('[id*="cd1\\:\\:mSel\\:\\:content"]').value);
     var month_dict = {
@@ -46,39 +46,44 @@ function fill_year(val) {
     var year = parseInt(val.split("-")[2]);
     var month = month_dict[val.split("-")[1]];
     var day = val.split("-")[0];
-    var diff = currYear - year;
 
-    //for year
-    while (diff != 0) {
-        if (diff > 0) {
+    // Convert val to a JavaScript Date object
+    var date = new Date(year, month, day);
+    
+    // Add weekNo*7 days to the date
+    date.setDate(date.getDate() + (weekNo * 7));
+
+    var diffYear = currYear - date.getFullYear();
+    var diffMonth = currMonth - date.getMonth();
+
+    // Adjust the year
+    while (diffYear !== 0) {
+        if (diffYear > 0) {
             document.querySelector('[id*="cd1::ys::decrement"]').click();
-            diff--;
-        }
-        else {
+            diffYear--;
+        } else {
             document.querySelector('[id*="cd1::ys::increment"]').click();
-            diff++;
+            diffYear++;
         }
     }
 
-    //for month
-    diff = currMonth - month;
-    while (diff != 0) {
-        if (diff > 0) {
+    // Adjust the month
+    while (diffMonth !== 0) {
+        if (diffMonth > 0) {
             document.querySelector('[title="Previous Month"]').click();
-            diff--;
-        }
-        else {
+            diffMonth--;
+        } else {
             document.querySelector('[title="Next Month"]').click();
-            diff++;
+            diffMonth++;
         }
     }
 
-    //for day
+    // Click on the day
     Array.from(document.getElementsByClassName('x12k')).forEach(cell => {
-        if(+cell.innerText == +day){
+        if (+cell.innerText === date.getDate()) {
             cell.click();
         }
-    })
+    });
 }
 
 function get_day_of_week(dateString) {
