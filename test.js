@@ -124,6 +124,131 @@ var cardState = {
     "rowNo" : 0
 }
 
+function set_card_state() {
+        let numberOfAT = document.getElementsByClassName('xwn').length - 5;
+    let [startingDate, endingDate] = document.querySelector("[id$=':tcDetails'] > table > tbody > tr > td.x1b0").innerText.split(" : ")[1].split(" - ");
+    let startingDay = getDayOfWeek(startingDate);
+    let endingDay = getDayOfWeek(endingDate);
+    cardState["NumberOfAT"] = numberOfAT;
+    cardState["rowNo"] = 0;
+    cardState["startingDay"] = startingDay;
+    cardState["endingDay"] = endingDay;
+    if(numberOfAT == 0){
+        cardState["AbsentType"] = {};
+        return;
+    }else{
+        let dict = {};
+        for(let i=0;i<numberOfAT;i++){
+            let dayArr = [false, false, false, false, false, false, false];
+            for(let j=startingDay+1;j<=endingDay+1;j++){
+                let hourString = document.getElementsByClassName('x1u p_AFReadOnly')[(i*(endingDay-startingDay+1))+(j-1)].innerText;
+                if(hourString != ""){
+                    dayArr[j-1] = true;
+                }
+            }
+            let key = expenditureMap[document.querySelectorAll('.x2hi span[id$="socMatrixAttributeNumber6"]')[i].innerText];
+            dict[key] = dayArr;
+        }
+        cardState["AbsentType"] = dict;
+    }
+}
+
+function is_hour_list_empty() {
+    return arr.join('').length == 0;
+}
+
+function delay(ms) {
+        return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve();
+        }, ms);
+    })
+}
+
+async function handle_data(excelDataString) {
+        let excelData = excelDataString.split("~");
+    let Project = excelData[0];
+    let Task = excelData[1];
+    let expanditureTask = expenditureMap[excelData[2]];
+    let excelHour = excelData.slice(3,10);
+    if(cardState["NumberOfAT"] > 0 && expanditureTask != "4"){
+        let absTypeDict = cardState["AbsentType"];
+        for(let absType in absTypeDict){
+            let initHour = ['', '', '', '', '', '', ''];
+            let conflictingHour = absTypeDict[absType];
+            for(let i = cardState["startingDay"]; i<= cardState["endingDay"]; i++){
+                if(conflictingHour[i]){
+                    initHour[i] = excelHour[i];
+                    excelHour[i] = '';
+                }
+            }
+            if(!is_hour_list_empty(initHour)){
+                await fill_row_data(Project, Task, absType, initHour);
+            }
+        }
+    }
+    if(!is_hour_list_empty(excelHour)){
+        await fill_row_data(Project, Task, expanditureTask, excelHour);
+    }
+}
+
+function set_project(index, project) {
+        return new Promise((resolve, reject) => {
+        waitForElement(`[id*='\\:socMatrixAttributeNumber2\\:\\:lovIconId']`).then(() => {
+            document.querySelectorAll(`[id*='\\:socMatrixAttributeNumber2\\:\\:lovIconId']`)[index].click();
+            return waitForElement("[id*='socMatrixAttributeNumber2\\:\\:dropdownPopup\\:\\:popupsearch']");
+        }).then(() => {
+            document.querySelector("[id*='socMatrixAttributeNumber2\\:\\:dropdownPopup\\:\\:popupsearch']").click();
+            return waitForElement("[id*=':socMatrixAttributeNumber2lovPopupId\\:\\:popup-container']");
+        }).then(() => {
+            return waitForElement("[id*='_afrLovInternalQueryId\\:\\:mode']");
+        }).then(() => {
+            document.querySelector("[id*='_afrLovInternalQueryId\\:\\:mode']").click();
+            return waitForElement('[id*="_afrLovInternalQueryId\\:operator0\\:\\:pop"] > li:nth-child(6)');
+        }).then(() => {
+            document.querySelector('[id*="_afrLovInternalQueryId\\:operator0\\:\\:pop"] > li:nth-child(6)').click();
+            document.querySelector('input[aria-label=" Display Value"]').value = project;
+            document.querySelector("[id*='_afrLovInternalQueryId\\:\\:search']").click(); // Click search
+            return waitForElement('[id*="socMatrixAttributeNumber2_afrLovInternalTableId::db"] > table > tbody > tr');
+        }).then(() => {
+            document.querySelectorAll('[id*="socMatrixAttributeNumber2_afrLovInternalTableId::db"] > table > tbody > tr')[0].click();
+            document.querySelector("[id*='\\:lovDialogId\\:\\:ok']").click();
+            resolve(); // Resolve the Promise when all operations are completed
+        }).catch((error) => {
+            reject(error); // Reject the Promise if there's an error
+        });
+    });
+}
+
+function set_task(index, task) {
+        return new Promise((resolve, reject) =>{
+        waitForElement(`[id*='\\:socMatrixAttributeNumber4\\:\\:lovIconId']`).then(() => {
+            document.querySelectorAll(`[id*='\\:socMatrixAttributeNumber4\\:\\:lovIconId']`)[index].click();
+            return waitForElement("[id*='socMatrixAttributeNumber4\\:\\:dropdownPopup\\:\\:popupsearch']");
+        }).then(() => {
+            document.querySelector("[id*='socMatrixAttributeNumber4\\:\\:dropdownPopup\\:\\:popupsearch']").click(); // Click popup search
+            return waitForElement("[id*=':socMatrixAttributeNumber4lovPopupId\\:\\:popup-container']");
+        }).then(() => {
+            return waitForElement("[id*='_afrLovInternalQueryId\\:\\:mode']");
+        }).then(() => {
+            document.querySelector("[id*='_afrLovInternalQueryId\\:\\:mode']").click();
+            return waitForElement('[id*="_afrLovInternalQueryId\\:operator0\\:\\:pop"] > li:nth-child(6)');
+        }).then(() => {
+            document.querySelector('[id*="_afrLovInternalQueryId\\:operator0\\:\\:pop"] > li:nth-child(6)').click();
+            document.querySelector('input[aria-label=" Display Value"]').value = task;
+            document.querySelector("[id*='_afrLovInternalQueryId\\:\\:search']").click(); // Click search
+            return waitForElement("[id*='_afrLovInternalTableId\\:\\:db'] > table > tbody > tr > td:nth-child(2) > div > table > tbody > tr > td");
+        }).then(() => {
+            document.querySelector("[id*='_afrLovInternalTableId\\:\\:db'] > table > tbody > tr > td:nth-child(2) > div > table > tbody > tr > td").click();
+            document.querySelector("[id*='\\:lovDialogId\\:\\:ok']").click();
+            resolve(); // Resolve the Promise when all operations are completed
+        }).catch((error) => {
+            console.error("Error:", error);
+            reject(error); // Reject the Promise if there's an error
+        });
+    });
+}
+
 function set_expenditure(index, type) {
     return new Promise((resolve, reject) =>{
         waitForElement('[title="Search: Expenditure Type"]').then(() => {
@@ -148,9 +273,44 @@ function set_expenditure(index, type) {
     });
 }
 
-function set_hours_data(index, data) {
+async function set_hours_data(index, data) {
     for(let i = startinDay; i <= endingDay; i++, counter++) {
         document.querySelectorAll(`input[id*="\\:m${counter}\\:\\:content"]`)[index].value = data[i];
     }
 }
 
+async function add_new_row_below() {
+    Array.from(document.getElementsByClassName('xwn')).slice(-1)[0].click();
+    document.querySelector('img[id*="ctb1\\:\\:icon"]').click();
+}
+
+async function fill_row_data(project, task, exType, hourList) {
+    return new Promise((resolve, reject) => {
+        let index = cardState["rowNo"];
+        console.log("here0");
+        set_project(index, project)
+        .then(() => {
+            console.log("here1");
+            return set_task(index, task);
+        })
+        .then(() => {
+            console.log("here2");
+            return set_expenditure(index, exType);
+        })
+        .then(() => {
+            return delay(1500);
+        })
+        .then(async () => {
+            console.log("here3");
+            await set_hours_data(index, hourList);
+            console.log("abc");
+            cardState["rowNo"] = index+1;
+            await add_new_row_below();
+            await delay(1000);
+            resolve();
+        }).catch((error) => {
+            reject();
+            throw error;
+        });
+    });
+}
