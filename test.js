@@ -166,7 +166,7 @@ function delay(ms) {
 }
 
 async function handle_data(excelDataString) {
-        let excelData = excelDataString.split("~");
+    let excelData = excelDataString.split("~");
     let Project = excelData[0];
     let Task = excelData[1];
     let expanditureTask = expenditureMap[excelData[2]];
