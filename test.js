@@ -146,7 +146,7 @@ function set_card_state() {
                     dayArr[j-1] = true;
                 }
             }
-            let key = expenditureMap[document.querySelectorAll('.x2hi span[id$="socMatrixAttributeNumber6"]')[i].innerText];
+            let key = document.querySelectorAll('.x2hi span[id$="socMatrixAttributeNumber6"]')[i].innerText;
             dict[key] = dayArr;
         }
         cardState["AbsentType"] = dict;
@@ -169,9 +169,9 @@ async function handle_data(excelDataString) {
     let excelData = excelDataString.split("~");
     let Project = excelData[0];
     let Task = excelData[1];
-    let expanditureTask = expenditureMap[excelData[2]];
+    let expanditureTask = excelData[2];
     let excelHour = excelData.slice(3,10);
-    if(cardState["NumberOfAT"] > 0 && expanditureTask != "4"){
+    if(cardState["NumberOfAT"] > 0 && expanditureTask != "Extra Hours - Employee"){
         let absTypeDict = cardState["AbsentType"];
         for(let absType in absTypeDict){
             let initHour = ['', '', '', '', '', '', ''];
@@ -261,7 +261,11 @@ function set_expenditure(index, type) {
             document.querySelector('[id*="_afrLovInternalQueryId\\:\\:search"]').click();
             return waitForElement('[id*="\\:socMatrixAttributeChar1_afrtablegridcell\\:\\:c"] > div > div:nth-child(2) > table > tbody');
         }).then(() => {
-            document.querySelector('[id*="\:socMatrixAttributeChar1_afrtablegridcell\:\:c"] > div > div:nth-child(2) > table > tbody').querySelector(`tr[_afrrk='${type}']`).click();
+            document.querySelector('[id*="\:socMatrixAttributeChar1_afrtablegridcell\:\:c"] > div > div:nth-child(2) > table > tbody').querySelectorAll('tr.xem').forEach((tr) => {
+                if(tr.innerText.trim() == type){
+                    tr.click();
+                }
+            })
             return waitForElement("[id*='socMatrixAttributeChar1\\:\\:lovDialogId\\:\\:ok']");
         }).then(() => {
             document.querySelector('[id*="socMatrixAttributeChar1\\:\\:lovDialogId\\:\\:ok"]').click();
