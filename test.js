@@ -81,6 +81,26 @@ function fill_year(val) {
     })
 }
 
-function fillData(index, data) {
-    
+function set_expenditure(index, type) {
+    return new Promise((resolve, reject) =>{
+        waitForElement('[title="Search: Expenditure Type"]').then(() => {
+            document.querySelectorAll('[title="Search: Expenditure Type"]')[index].click();
+            return waitForElement("[id*='\\:\\:dropdownPopup\\:\\:popupsearch']");
+        }).then(() => {
+            document.querySelector("[id*='\\:\\:dropdownPopup\\:\\:popupsearch']").click();
+            return waitForElement("[id*='_afrLovInternalQueryId\\:\\:search']");
+        }).then(() => {
+            document.querySelector('[id*="_afrLovInternalQueryId\\:\\:search"]').click();
+            return waitForElement('[id*="\\:socMatrixAttributeChar1_afrtablegridcell\\:\\:c"] > div > div:nth-child(2) > table > tbody');
+        }).then(() => {
+            document.querySelector('[id*="\:socMatrixAttributeChar1_afrtablegridcell\:\:c"] > div > div:nth-child(2) > table > tbody').querySelector(`tr[_afrrk='${type}']`).click();
+            return waitForElement("[id*='socMatrixAttributeChar1\\:\\:lovDialogId\\:\\:ok']");
+        }).then(() => {
+            document.querySelector('[id*="socMatrixAttributeChar1\\:\\:lovDialogId\\:\\:ok"]').click();
+            resolve();
+        }).catch((error) => {
+            console.error("Error:", error);
+            reject(error);
+        });
+    });
 }
