@@ -238,7 +238,7 @@ function set_project(index, project) {
         }).then(() => {
             document.querySelector('[id*="_afrLovInternalQueryId\\:operator0\\:\\:pop"] > li:nth-child(6)').click();
             document.querySelector('input[aria-label=" Display Value"]').value = project;
-            document.querySelector("[id*='_afrLovInternalQueryId\\:\\:search']").click(); // Click search
+            document.querySelector("[id*='socMatrixAttributeNumber2\\:\\:_afrLovInternalQueryId\\:\\:search']").click(); // Click search
             return waitForElement('[id*="socMatrixAttributeNumber2_afrLovInternalTableId::db"] > table > tbody > tr');
         }).then(() => {
             document.querySelectorAll('[id*="socMatrixAttributeNumber2_afrLovInternalTableId::db"] > table > tbody > tr')[0].click();
@@ -266,7 +266,7 @@ function set_task(index, task) {
         }).then(() => {
             document.querySelector('[id*="_afrLovInternalQueryId\\:operator0\\:\\:pop"] > li:nth-child(6)').click();
             document.querySelector('input[aria-label=" Display Value"]').value = task;
-            document.querySelector("[id*='_afrLovInternalQueryId\\:\\:search']").click(); // Click search
+            document.querySelector("[id*='socMatrixAttributeNumber4\\:\\:_afrLovInternalQueryId\\:\\:search']").click(); // Click search
             return waitForElement("[id*='_afrLovInternalTableId\\:\\:db'] > table > tbody > tr > td:nth-child(2) > div > table > tbody > tr > td");
         }).then(() => {
             document.querySelector("[id*='_afrLovInternalTableId\\:\\:db'] > table > tbody > tr > td:nth-child(2) > div > table > tbody > tr > td").click();
@@ -286,9 +286,9 @@ function set_expenditure(index, type) {
             return waitForElement("[id*='\\:\\:dropdownPopup\\:\\:popupsearch']");
         }).then(() => {
             document.querySelector("[id*='\\:\\:dropdownPopup\\:\\:popupsearch']").click();
-            return waitForElement("[id*='_afrLovInternalQueryId\\:\\:search']");
+            return waitForElement("[id*='socMatrixAttributeChar1\\:\\:_afrLovInternalQueryId\\:\\:search']");
         }).then(() => {
-            document.querySelector('[id*="_afrLovInternalQueryId\\:\\:search"]').click();
+            document.querySelector('[id*="socMatrixAttributeChar1\\:\\:_afrLovInternalQueryId\\:\\:search"]').click();
             return waitForElement('[id*="\\:socMatrixAttributeChar1_afrtablegridcell\\:\\:c"] > div > div:nth-child(2) > table > tbody');
         }).then(() => {
             document.querySelector('[id*="\:socMatrixAttributeChar1_afrtablegridcell\:\:c"] > div > div:nth-child(2) > table > tbody').querySelectorAll('tr.xem').forEach((tr) => {
