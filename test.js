@@ -274,8 +274,11 @@ function set_expenditure(index, type) {
 }
 
 async function set_hours_data(index, data) {
+    console.log("starting setting hours");
+    let counter = 1;
     for(let i = cardState["startingDay"]; i <= cardState["endingDay"]; i++, counter++) {
         document.querySelectorAll(`input[id*="\\:m${counter}\\:\\:content"]`)[index].value = data[i];
+        console.log("count", counter ,"data",  data[i], "index", index);
     }
 }
 
