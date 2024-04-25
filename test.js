@@ -153,7 +153,7 @@ function set_card_state() {
     }
 }
 
-function is_hour_list_empty() {
+function is_hour_list_empty(arr) {
     return arr.join('').length == 0;
 }
 
