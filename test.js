@@ -125,7 +125,7 @@ var cardState = {
 }
 
 function set_card_state() {
-        let numberOfAT = document.getElementsByClassName('xwn').length - 5;
+    let numberOfAT = document.getElementsByClassName('xwn').length - 5;
     let [startingDate, endingDate] = document.querySelector("[id$=':tcDetails'] > table > tbody > tr > td.x1b0").innerText.split(" : ")[1].split(" - ");
     let startingDay = getDayOfWeek(startingDate);
     let endingDay = getDayOfWeek(endingDate);
