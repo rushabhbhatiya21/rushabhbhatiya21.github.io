@@ -116,6 +116,14 @@ var expenditureMap = {
   "Training": "18"
 }
 
+var cardState = {
+    "AbsentType" : {},
+    "NumberOfAT" : 0,
+    "startingDay" : 0,
+    "endingDay" : 6,
+    "rowNo" : 0
+}
+
 function set_expenditure(index, type) {
     return new Promise((resolve, reject) =>{
         waitForElement('[title="Search: Expenditure Type"]').then(() => {
