@@ -32,7 +32,7 @@ function get_difference_in_days(dateString1, dateString2) {
     return differenceInDays + remdayweek;
 }
 
-function fill_person_number(val) {
+async function fill_person_number(val) {
     document.querySelector('[id*="personName2Id\\:\\:_afrLovInternalQueryId\\:\\:reset"]');
     delay(1000).then(() => {
         document.querySelector('[aria-label=" Person Number"][id*="personName2Id"]').value = val;
