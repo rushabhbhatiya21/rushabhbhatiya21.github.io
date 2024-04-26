@@ -33,8 +33,10 @@ function get_difference_in_days(dateString1, dateString2) {
 }
 
 function fill_person_number(val) {
-    document.querySelector('[aria-label=" Person Number"][id*="personName2Id"]').value = val;
-    console.log(val);
+    document.querySelector('[id*="personName2Id\\:\\:_afrLovInternalQueryId\\:\\:reset"]');
+    delay(1000).then(() => {
+        document.querySelector('[aria-label=" Person Number"][id*="personName2Id"]').value = val;
+    });
 }
 
 function fill_year(val, weekNo) {
@@ -235,9 +237,6 @@ function set_project(index, project) {
         }).then(() => {
             document.querySelector("[id*='_afrLovInternalQueryId\\:\\:mode']").click();
             return waitForElement('[id*="_afrLovInternalQueryId\\:operator0\\:\\:pop"] > li:nth-child(6)');
-        }).then(() => {
-            document.querySelector('[id*="socMatrixAttributeNumber2\\:\\:_afrLovInternalQueryId\\:\\:reset"]');
-            return delay(500);
         }).then(() => {
             document.querySelector('[id*="_afrLovInternalQueryId\\:operator0\\:\\:pop"] > li:nth-child(6)').click();
             document.querySelector('input[aria-label=" Display Value"]').value = project;
