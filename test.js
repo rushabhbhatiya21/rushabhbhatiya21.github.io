@@ -292,7 +292,7 @@ function set_expenditure(index, type) {
             return waitForElement('[id*="\\:socMatrixAttributeChar1_afrtablegridcell\\:\\:c"] > div > div:nth-child(2) > table > tbody');
         }).then(() => {
             document.querySelector('[id*="\:socMatrixAttributeChar1_afrtablegridcell\:\:c"] > div > div:nth-child(2) > table > tbody').querySelectorAll('tr.xem').forEach((tr) => {
-                if(tr.innerText.trim() == type){
+                if(tr.innerText.trim().toLowerCase() == type.toLowerCase()){
                     tr.click();
                 }
             })
