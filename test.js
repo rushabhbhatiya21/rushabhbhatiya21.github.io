@@ -175,7 +175,7 @@ function set_card_state() {
                     dayArr[j-1] = true;
                 }
             }
-            let key = absenseTypeMapping[document.querySelectorAll('.x2hi span[id$="socMatrixAttributeNumber6"]')[i].innerText];
+            let key = absenseTypeMapping[document.querySelectorAll('.x2hi span[id$="socMatrixAttributeNumber6"]')[i].innerText.toLowerCase()];
             dict[key] = dayArr;
         }
         cardState["AbsentType"] = dict;
