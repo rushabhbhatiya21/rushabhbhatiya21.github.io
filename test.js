@@ -133,16 +133,16 @@ function get_day_of_week(dateString) {
 // }
 
 var absenseTypeMapping = {
-    "Annual Leave": "Annual Leave",
-    "Bank Holidays": "Bank Holidays",
-    "Mace Day": "Mace Day",
-    "Compassionate leave": "Other Leave - Compassionate",
-    "Jury Service": "Other Leave - Jury Service",
-    "Unpaid Leave": "Other Leave - Unpaid",
-    "Voluntary Reserve Forces Leave": "Other Leave - Voluntary Reserve Forces Leave",
-    "Maternity Leave": "Parental Leave",
-    "Sickness (Long Term) (GIP)": "Sickness-GIP",
-    "Sickness (Short Term)": "sickness"
+  "annual leave": "annual leave",
+  "bank holidays": "bank holidays",
+  "mace day": "mace day",
+  "other leave - compassionate": "compassionate leave",
+  "other leave - jury service": "jury service",
+  "other leave - unpaid": "unpaid leave",
+  "other leave - voluntary reserve forces leave": "voluntary reserve forces leave",
+  "parental leave": "maternity leave",
+  "sickness-gip": "sickness (long term) (gip)",
+  "sickness": "sickness (short term)"
 }
 
 var cardState = {
