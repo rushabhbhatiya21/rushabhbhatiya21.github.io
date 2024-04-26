@@ -354,3 +354,10 @@ async function fill_row_data(project, task, exType, hourList) {
         });
     });
 }
+
+function cancel_action() {
+    document.querySelector('[id*=":AP1\\:SPc"]>a[accesskey="C"]').click();
+    waitForElement('[id*="AP1\\:dialog2"]').then(() => {
+        document.querySelector('button[id*="AP1\\:dialog2\\:\\:yes"]').click();
+    }); 
+}
