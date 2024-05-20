@@ -363,7 +363,7 @@ async function fill_row_data(project, task, exType, hourList) {
             await add_new_row_below();
             // console.log("index after adding row below: ", index);
             await delay(2000);
-            scroll_up_down();
+            await scroll_up_down();
             await delay(1000);
             resolve();
         }).catch((error) => {
