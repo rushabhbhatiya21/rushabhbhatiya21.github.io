@@ -254,7 +254,7 @@ function set_project(index, project) {
         }).then(() => {
             if (document.querySelector('[id*="socMatrixAttributeNumber2_afrLovInternalTableId::db"] > table > tbody > tr') == null) {
                 continueFlag = false; 
-                return null;
+                return;
             }
             document.querySelectorAll('[id*="socMatrixAttributeNumber2_afrLovInternalTableId::db"] > table > tbody > tr')[0].click();
             document.querySelector("[id*='\\:lovDialogId\\:\\:ok']").click();
@@ -372,42 +372,48 @@ async function fill_row_data(project, task, exType, hourList) {
     // await scroll_up();
     return new Promise((resolve, reject) => {
         let index = cardState["rowNo"];
-        // console.log("here0");
+
         set_project(index, project)
-        .then(() => {
-            // console.log("here1");
-            continueFlag ? return set_task(index, task) : return null;
-        })
-        .then(() => {
-            continueFlag ? return delay(1500) : return null;
-        })
-        .then(() => {
-            // console.log("here2");
-            continueFlag ? return set_expenditure(index, exType) : return null;
-        })
-        .then(() => {
-            continueFlag ? return delay(1500) : return null;
-        })
-        .then(async () => {
-            // console.log("here3");
-            if (!continueFlag) {
-                return null;
-            }
-            await set_hours_data(index, hourList);
-            await delay(3000);
-            cardState["rowNo"] = index+1;
-            await add_new_row_below();
-            // console.log("index after adding row below: ", index);
-            await delay(2000);
-            // await scroll_down(); 
-            // await delay(1000);
-            resolve();
-        }).catch((error) => {
-            reject();
-            throw error;
-        });
+            .then(() => {
+                if (continueFlag) {
+                    return set_task(index, task);
+                }
+            })
+            .then(() => {
+                if (continueFlag) {
+                    return delay(1500);
+                }
+            })
+            .then(() => {
+                if (continueFlag) {
+                    return set_expenditure(index, exType);
+                }
+            })
+            .then(() => {
+                if (continueFlag) {
+                    return delay(1500);
+                }
+            })
+            .then(async () => {
+                if (!continueFlag) {
+                    return null;
+                }
+                await set_hours_data(index, hourList);
+                await delay(3000);
+                cardState["rowNo"] = index + 1;
+                await add_new_row_below();
+                await delay(2000);
+                // await scroll_down(); 
+                // await delay(1000);
+                resolve();
+            })
+            .catch((error) => {
+                reject();
+                throw error;
+            });
     });
 }
+
 
 function cancel_action() {
     document.querySelector('[id*=":AP1\\:SPc"]>a[accesskey="C"]').click();
