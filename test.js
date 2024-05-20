@@ -330,6 +330,10 @@ async function add_new_row_below() {
     document.querySelector('img[id*="ctb1\\:\\:icon"]').click();
 }
 
+function scroll_down() {
+    document.querySelector('[id*="AT2\\:_ATp\\:ATt2\\:\\:vscroller"]');
+}
+
 async function fill_row_data(project, task, exType, hourList) {
     return new Promise((resolve, reject) => {
         let index = cardState["rowNo"];
@@ -356,7 +360,9 @@ async function fill_row_data(project, task, exType, hourList) {
             cardState["rowNo"] = index+1;
             await add_new_row_below();
             console.log("index after adding row below: ", index);
-            await delay(3000);
+            await delay(2000);
+            scroll_down();
+            await delay(1000);
             resolve();
         }).catch((error) => {
             reject();
