@@ -311,13 +311,31 @@ function set_expenditure(index, type) {
         }).then(() => {
             document.querySelector('[id*="socMatrixAttributeChar1\\:\\:_afrLovInternalQueryId\\:\\:search"]').click();
             return waitForElement('[id*="\\:socMatrixAttributeChar1_afrtablegridcell\\:\\:c"] > div > div:nth-child(2) > table > tbody');
-        }).then(() => {
-            document.querySelector('[id*="\:socMatrixAttributeChar1_afrtablegridcell\:\:c"] > div > div:nth-child(2) > table > tbody').querySelectorAll('tr.xem').forEach((tr) => {
-                if(tr.innerText.trim().toLowerCase() == type.toLowerCase()){
-                    tr.click();
+        }).then(async () => {
+            // if (document.querySelector('[id*="\\:socMatrixAttributeChar1_afrtablegridcell\\:\\:c"] > div > div:nth-child(2) > table > tbody') == null) {
+            //     await scroll_up();
+            //     resolve();
+            //     set_expenditure(index,type);
+            // }
+            // document.querySelector('[id*="\:socMatrixAttributeChar1_afrtablegridcell\:\:c"] > div > div:nth-child(2) > table > tbody').querySelectorAll('tr.xem').forEach((tr) => {
+            //     if(tr.innerText.trim().toLowerCase() == type.toLowerCase()){
+            //         tr.click();
+            //     }
+            // })
+            // return waitForElement("[id*='socMatrixAttributeChar1\\:\\:lovDialogId\\:\\:ok']");
+            const tbody = document.querySelector('[id*="\\:socMatrixAttributeChar1_afrtablegridcell\\:\\:c"] > div > div:nth-child(2) > table > tbody');
+                if (tbody == null) {
+                    await scroll_up();
+                    // Resolve this promise but call the function again to retry
+                    set_expenditure(index, type).then(resolve).catch(reject);
+                    return;
                 }
-            })
-            return waitForElement("[id*='socMatrixAttributeChar1\\:\\:lovDialogId\\:\\:ok']");
+                tbody.querySelectorAll('tr.xem').forEach((tr) => {
+                    if (tr.innerText.trim().toLowerCase() === type.toLowerCase()) {
+                        tr.click();
+                    }
+                });
+                return waitForElement("[id*='socMatrixAttributeChar1\\:\\:lovDialogId\\:\\:ok']");
         }).then(() => {
             document.querySelector('[id*="socMatrixAttributeChar1\\:\\:lovDialogId\\:\\:ok"]').click();
             resolve();
