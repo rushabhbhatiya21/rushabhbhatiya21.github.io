@@ -254,7 +254,7 @@ function set_project(index, project) {
         }).then(() => {
             if (document.querySelector('[id*="socMatrixAttributeNumber2_afrLovInternalTableId::db"] > table > tbody > tr') == null) {
                 continueFlag = false; 
-                return;
+                return null;
             }
             document.querySelectorAll('[id*="socMatrixAttributeNumber2_afrLovInternalTableId::db"] > table > tbody > tr')[0].click();
             document.querySelector("[id*='\\:lovDialogId\\:\\:ok']").click();
@@ -376,22 +376,22 @@ async function fill_row_data(project, task, exType, hourList) {
         set_project(index, project)
         .then(() => {
             // console.log("here1");
-            continueFlag ? return set_task(index, task) : return;
+            continueFlag ? return set_task(index, task) : return null;
         })
         .then(() => {
-            continueFlag ? return delay(1500) : return;
+            continueFlag ? return delay(1500) : return null;
         })
         .then(() => {
             // console.log("here2");
-            continueFlag ? return set_expenditure(index, exType) : return;
+            continueFlag ? return set_expenditure(index, exType) : return null;
         })
         .then(() => {
-            continueFlag ? return delay(1500) : return;
+            continueFlag ? return delay(1500) : return null;
         })
         .then(async () => {
             // console.log("here3");
             if (!continueFlag) {
-                return;
+                return null;
             }
             await set_hours_data(index, hourList);
             await delay(3000);
