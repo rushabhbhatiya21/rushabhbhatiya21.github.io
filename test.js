@@ -310,14 +310,16 @@ function set_expenditure(index, type) {
             return waitForElement("[id*='socMatrixAttributeChar1\\:\\:_afrLovInternalQueryId\\:\\:search']");
         }).then(() => {
             document.querySelector('[id*="socMatrixAttributeChar1\\:\\:_afrLovInternalQueryId\\:\\:search"]').click();
-            // return delay(3000);
-            return waitForElement('[id*="\\:socMatrixAttributeChar1_afrtablegridcell\\:\\:c"] > div > div:nth-child(2) > table > tbody');
+            return delay(3000);
+            // return waitForElement('[id*="\\:socMatrixAttributeChar1_afrtablegridcell\\:\\:c"] > div > div:nth-child(2) > table > tbody');
         }).then(async () => {
-            // if (document.querySelector('[id*="\\:socMatrixAttributeChar1_afrtablegridcell\\:\\:c"] > div > div:nth-child(2) > table > tbody') == null) {
-                // await scroll_up();
+            if (document.querySelector('[id*="\\:socMatrixAttributeChar1_afrtablegridcell\\:\\:c"] > div > div:nth-child(2) > table > tbody') == null) {
+                document.querySelector('[id*="socMatrixAttributeChar1\\:\\:lovDialogId\\:\\:cancel"]').click();
+                delay(1000);
+                await scroll_up();
                 // resolve();
-                // set_expenditure(index,type);
-            // }
+                set_expenditure(index,type);
+            }
             document.querySelector('[id*="\:socMatrixAttributeChar1_afrtablegridcell\:\:c"] > div > div:nth-child(2) > table > tbody').querySelectorAll('tr.xem').forEach((tr) => {
                 if(tr.innerText.trim().toLowerCase() == type.toLowerCase()){
                     tr.click();
