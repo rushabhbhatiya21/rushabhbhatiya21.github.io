@@ -330,20 +330,22 @@ async function add_new_row_below() {
     document.querySelector('img[id*="ctb1\\:\\:icon"]').click();
 }
 
-function scroll_up_down() {
-    if (document.querySelector('[id*="AT2\\:_ATp\\:ATt2\\:\\:vscroller"]')) {
-        document.querySelector('[id*="AT2\\:_ATp\\:ATt2\\:\\:vscroller"]').scrollBy(0, Number.MIN_SAFE_INTEGER);  // Scroll up
-        console.log("waiting 4 seconds...");
-        delay(4000);              // Wait for 4 seconds
-        document.querySelector('[id*="AT2\\:_ATp\\:ATt2\\:\\:vscroller"]').scrollBy(0, Number.MAX_SAFE_INTEGER);   // Scroll down
-        console.log("wait over");
-    } else {
-        console.log('Scroller element not found');
-    }
-}
+// function scroll_up_down() {
+//     if (document.querySelector('[id*="AT2\\:_ATp\\:ATt2\\:\\:vscroller"]')) {
+        
+//         console.log("waiting 4 seconds...");
+//         delay(4000);              // Wait for 4 seconds
+        
+//         console.log("wait over");
+//     } else {
+//         console.log('Scroller element not found');
+//     }
+// }
 
 async function fill_row_data(project, task, exType, hourList) {
     return new Promise((resolve, reject) => {
+        document.querySelector('[id*="AT2\\:_ATp\\:ATt2\\:\\:vscroller"]').scrollBy(0, Number.MIN_SAFE_INTEGER);  // Scroll up
+        await delay(4000);
         let index = cardState["rowNo"];
         // console.log("here0");
         set_project(index, project)
@@ -369,7 +371,7 @@ async function fill_row_data(project, task, exType, hourList) {
             await add_new_row_below();
             // console.log("index after adding row below: ", index);
             await delay(2000);
-            scroll_up_down();
+            document.querySelector('[id*="AT2\\:_ATp\\:ATt2\\:\\:vscroller"]').scrollBy(0, Number.MAX_SAFE_INTEGER);   // Scroll down
             await delay(1000);
             resolve();
         }).catch((error) => {
