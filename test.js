@@ -352,6 +352,7 @@ async function fill_row_data(project, task, exType, hourList) {
         .then(async () => {
             // console.log("here3");
             await set_hours_data(index, hourList);
+            await delay(3000);
             cardState["rowNo"] = index+1;
             await add_new_row_below();
             console.log("index after adding row below: ", index);
