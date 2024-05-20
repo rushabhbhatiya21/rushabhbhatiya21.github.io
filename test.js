@@ -250,7 +250,8 @@ function set_project(index, project) {
             document.querySelector('[id*="_afrLovInternalQueryId\\:operator0\\:\\:pop"] > li:nth-child(6)').click();
             document.querySelector('input[aria-label=" Display Value"]').value = project;
             document.querySelector("[id*='socMatrixAttributeNumber2\\:\\:_afrLovInternalQueryId\\:\\:search']").click(); // Click search
-            return waitForElement('[id*="socMatrixAttributeNumber2_afrLovInternalTableId::db"] > table > tbody > tr');
+            // return waitForElement('[id*="socMatrixAttributeNumber2_afrLovInternalTableId::db"] > table > tbody > tr');
+            return delay(3000);
         }).then(() => {
             if (document.querySelector('[id*="socMatrixAttributeNumber2_afrLovInternalTableId::db"] > table > tbody > tr') == null) {
                 continueFlag = false;
