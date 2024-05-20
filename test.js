@@ -162,6 +162,8 @@ var cardState = {
     "rowNo" : 0
 }
 
+var continueFlag = true;
+
 function set_card_state() {
     let numberOfAT = document.getElementsByClassName('xwn').length - 5;
     let [startingDate, endingDate] = document.querySelector("[id$=':tcDetails'] > table > tbody > tr > td.x1b0").innerText.split(" : ")[1].split(" - ");
@@ -250,6 +252,10 @@ function set_project(index, project) {
             document.querySelector("[id*='socMatrixAttributeNumber2\\:\\:_afrLovInternalQueryId\\:\\:search']").click(); // Click search
             return waitForElement('[id*="socMatrixAttributeNumber2_afrLovInternalTableId::db"] > table > tbody > tr');
         }).then(() => {
+            if (document.querySelector('[id*="socMatrixAttributeNumber2_afrLovInternalTableId::db"] > table > tbody > tr') == null) {
+                continueFlag = false; 
+                return;
+            }
             document.querySelectorAll('[id*="socMatrixAttributeNumber2_afrLovInternalTableId::db"] > table > tbody > tr')[0].click();
             document.querySelector("[id*='\\:lovDialogId\\:\\:ok']").click();
             resolve(); // Resolve the Promise when all operations are completed
@@ -370,20 +376,23 @@ async function fill_row_data(project, task, exType, hourList) {
         set_project(index, project)
         .then(() => {
             // console.log("here1");
-            return set_task(index, task);
+            continueFlag ? return set_task(index, task) : return;
         })
         .then(() => {
-            return delay(1500);
+            continueFlag ? return delay(1500) : return;
         })
         .then(() => {
             // console.log("here2");
-            return set_expenditure(index, exType);
+            continueFlag ? return set_expenditure(index, exType) : return;
         })
         .then(() => {
-            return delay(1500);
+            continueFlag ? return delay(1500) : return;
         })
         .then(async () => {
             // console.log("here3");
+            if (!continueFlag) {
+                return;
+            }
             await set_hours_data(index, hourList);
             await delay(3000);
             cardState["rowNo"] = index+1;
