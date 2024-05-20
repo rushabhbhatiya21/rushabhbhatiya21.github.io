@@ -256,6 +256,7 @@ function set_project(index, project) {
             if (document.querySelector('[id*="socMatrixAttributeNumber2_afrLovInternalTableId::db"] > table > tbody > tr') == null) {
                 continueFlag = false;
                 document.querySelector('[id*="socMatrixAttributeNumber2\\:\\:lovDialogId\\:\\:cancel"]').click();
+                cancel_action();
                 return;
             }
             document.querySelectorAll('[id*="socMatrixAttributeNumber2_afrLovInternalTableId::db"] > table > tbody > tr')[0].click();
@@ -429,5 +430,5 @@ function cancel_action() {
     document.querySelector('[id*=":AP1\\:SPc"]>a[accesskey="C"]').click();
     waitForElement('[id*="AP1\\:dialog2"]').then(() => {
         document.querySelector('button[id*="AP1\\:dialog2\\:\\:yes"]').click();
-    }); 
+    });
 }
