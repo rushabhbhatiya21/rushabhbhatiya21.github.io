@@ -342,10 +342,29 @@ async function add_new_row_below() {
 //     }
 // }
 
+async function scroll_up() {
+    const scroller = document.querySelector('[id*="AT2\\:_ATp\\:ATt2\\:\\:vscroller"]');
+    if (scroller) {
+        scroller.scrollBy(0, Number.MIN_SAFE_INTEGER);  // Scroll up
+        await delay(4000);              // Wait for 4 seconds
+    } else {
+        console.error('Scroller element not found');
+    }
+}
+
+async function scroll_down() {
+    const scroller = document.querySelector('[id*="AT2\\:_ATp\\:ATt2\\:\\:vscroller"]');
+    if (scroller) {
+        scroller.scrollBy(0, Number.MAX_SAFE_INTEGER);   // Scroll down
+        await delay(3000);              // Wait for 1 second
+    } else {
+        console.error('Scroller element not found');
+    }
+}
+
 async function fill_row_data(project, task, exType, hourList) {
+    await scroll_up()
     return new Promise((resolve, reject) => {
-        document.querySelector('[id*="AT2\\:_ATp\\:ATt2\\:\\:vscroller"]').scrollBy(0, Number.MIN_SAFE_INTEGER);  // Scroll up
-        await delay(4000);
         let index = cardState["rowNo"];
         // console.log("here0");
         set_project(index, project)
@@ -371,7 +390,7 @@ async function fill_row_data(project, task, exType, hourList) {
             await add_new_row_below();
             // console.log("index after adding row below: ", index);
             await delay(2000);
-            document.querySelector('[id*="AT2\\:_ATp\\:ATt2\\:\\:vscroller"]').scrollBy(0, Number.MAX_SAFE_INTEGER);   // Scroll down
+           await scroll_down(); 
             await delay(1000);
             resolve();
         }).catch((error) => {
