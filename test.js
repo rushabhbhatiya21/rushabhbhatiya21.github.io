@@ -256,11 +256,14 @@ function set_project(index, project) {
             if (document.querySelector('[id*="socMatrixAttributeNumber2_afrLovInternalTableId::db"] > table > tbody > tr') == null) {
                 continueFlag = false;
                 document.querySelector('[id*="socMatrixAttributeNumber2\\:\\:lovDialogId\\:\\:cancel"]').click();
-                cancel_action();
-                return;
+                // cancel_action();
+                // resolve();
+                // return;
             }
-            document.querySelectorAll('[id*="socMatrixAttributeNumber2_afrLovInternalTableId::db"] > table > tbody > tr')[0].click();
-            document.querySelector("[id*='\\:lovDialogId\\:\\:ok']").click();
+            else {
+                document.querySelectorAll('[id*="socMatrixAttributeNumber2_afrLovInternalTableId::db"] > table > tbody > tr')[0].click();
+                document.querySelector("[id*='\\:lovDialogId\\:\\:ok']").click();
+            }
             resolve(); // Resolve the Promise when all operations are completed
         }).catch((error) => {
             reject(error); // Reject the Promise if there's an error
