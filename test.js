@@ -355,7 +355,7 @@ async function fill_row_data(project, task, exType, hourList) {
             cardState["rowNo"] = index+1;
             await add_new_row_below();
             console.log("index after adding row below: ", index);
-            await delay(1000);
+            await delay(3000);
             resolve();
         }).catch((error) => {
             reject();
