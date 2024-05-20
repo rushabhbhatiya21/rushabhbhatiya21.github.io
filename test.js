@@ -329,7 +329,7 @@ function set_expenditure(index, type) {
                     document.querySelector('[id*="socMatrixAttributeChar1\\:\\:lovDialogId\\:\\:cancel"]').click();
                     delay(1000);
                     await scroll_up();
-                    set_expenditure(index, type).then(resolve).catch(reject);
+                    set_expenditure(index, type)
                     return;
                 }
                 tbody.querySelectorAll('tr.xem').forEach((tr) => {
