@@ -398,7 +398,8 @@ async function fill_row_data(project, task, exType, hourList) {
             })
             .then(async () => {
                 if (!continueFlag) {
-                    return null;
+                    resolve();
+                    return;
                 }
                 await set_hours_data(index, hourList);
                 await delay(3000);
