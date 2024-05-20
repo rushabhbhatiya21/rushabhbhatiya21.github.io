@@ -331,8 +331,8 @@ async function add_new_row_below() {
 }
 
 async function scroll_up_down() {
-    document.querySelector('[id*="AT2\\:_ATp\\:ATt2\\:\\:vscroller"]').scrollBy(0, 0);
-    await delay(3000);
+    document.querySelector('[id*="AT2\\:_ATp\\:ATt2\\:\\:vscroller"]').scrollBy(0, Number.MIN_SAFE_INTEGER);
+    await delay(4000);
     document.querySelector('[id*="AT2\\:_ATp\\:ATt2\\:\\:vscroller"]').scrollBy(0, Number.MAX_SAFE_INTEGER);
 }
 
