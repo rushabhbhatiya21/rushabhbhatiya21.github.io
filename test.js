@@ -325,10 +325,9 @@ function set_expenditure(index, type) {
             // return waitForElement("[id*='socMatrixAttributeChar1\\:\\:lovDialogId\\:\\:ok']");
             const tbody = document.querySelector('[id*="\\:socMatrixAttributeChar1_afrtablegridcell\\:\\:c"] > div > div:nth-child(2) > table > tbody');
                 if (tbody == null) {
-                    document.querySelector('[id*="socMatrixAttributeNumber2\\:\\:lovDialogId\\:\\:cancel"]').click();
-                    delay(1000)
+                    document.querySelector('[id*="socMatrixAttributeChar1\\:\\:lovDialogId\\:\\:cancel"]').click();
+                    delay(1000);
                     await scroll_up();
-                    // Resolve this promise but call the function again to retry
                     set_expenditure(index, type).then(resolve).catch(reject);
                     return;
                 }
