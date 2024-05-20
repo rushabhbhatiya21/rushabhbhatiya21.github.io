@@ -363,7 +363,7 @@ async function scroll_down() {
 }
 
 async function fill_row_data(project, task, exType, hourList) {
-    await scroll_up()
+    // await scroll_up();
     return new Promise((resolve, reject) => {
         let index = cardState["rowNo"];
         // console.log("here0");
@@ -390,8 +390,8 @@ async function fill_row_data(project, task, exType, hourList) {
             await add_new_row_below();
             // console.log("index after adding row below: ", index);
             await delay(2000);
-           await scroll_down(); 
-            await delay(1000);
+            // await scroll_down(); 
+            // await delay(1000);
             resolve();
         }).catch((error) => {
             reject();
