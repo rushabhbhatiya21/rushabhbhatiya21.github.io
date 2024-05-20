@@ -330,8 +330,9 @@ async function add_new_row_below() {
     document.querySelector('img[id*="ctb1\\:\\:icon"]').click();
 }
 
-function scroll_up_down() {
+async function scroll_up_down() {
     document.querySelector('[id*="AT2\\:_ATp\\:ATt2\\:\\:vscroller"]').scrollBy(0, 0);
+    await delay(3000);
     document.querySelector('[id*="AT2\\:_ATp\\:ATt2\\:\\:vscroller"]').scrollBy(0, Number.MAX_SAFE_INTEGER);
 }
 
@@ -361,7 +362,7 @@ async function fill_row_data(project, task, exType, hourList) {
             cardState["rowNo"] = index+1;
             await add_new_row_below();
             // console.log("index after adding row below: ", index);
-            await delay(4000);
+            await delay(2000);
             scroll_up_down();
             await delay(1000);
             resolve();
