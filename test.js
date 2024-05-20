@@ -253,7 +253,8 @@ function set_project(index, project) {
             return waitForElement('[id*="socMatrixAttributeNumber2_afrLovInternalTableId::db"] > table > tbody > tr');
         }).then(() => {
             if (document.querySelector('[id*="socMatrixAttributeNumber2_afrLovInternalTableId::db"] > table > tbody > tr') == null) {
-                continueFlag = false; 
+                continueFlag = false;
+                document.querySelector('[id*="socMatrixAttributeNumber2\\:\\:lovDialogId\\:\\:cancel"]').click();
                 return;
             }
             document.querySelectorAll('[id*="socMatrixAttributeNumber2_afrLovInternalTableId::db"] > table > tbody > tr')[0].click();
