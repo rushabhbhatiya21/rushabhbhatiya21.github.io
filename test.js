@@ -331,15 +331,14 @@ async function add_new_row_below() {
 }
 
 async function scroll_up_down() {
-    const scroller = document.querySelector('[id*="AT2\\:_ATp\\:ATt2\\:\\:vscroller"]');
-    if (scroller) {
-        scroller.scrollBy(0, Number.MIN_SAFE_INTEGER);  // Scroll up
+    if (document.querySelector('[id*="AT2\\:_ATp\\:ATt2\\:\\:vscroller"]')) {
+        document.querySelector('[id*="AT2\\:_ATp\\:ATt2\\:\\:vscroller"]').scrollBy(0, Number.MIN_SAFE_INTEGER);  // Scroll up
         console.log("waiting 4 seconds...");
         await delay(4000);              // Wait for 4 seconds
-        scroller.scrollBy(0, Number.MAX_SAFE_INTEGER);   // Scroll down
+        document.querySelector('[id*="AT2\\:_ATp\\:ATt2\\:\\:vscroller"]').scrollBy(0, Number.MAX_SAFE_INTEGER);   // Scroll down
         console.log("wait over");
     } else {
-        console.error('Scroller element not found');
+        console.log('Scroller element not found');
     }
 }
 
