@@ -310,7 +310,8 @@ function set_expenditure(index, type) {
             return waitForElement("[id*='socMatrixAttributeChar1\\:\\:_afrLovInternalQueryId\\:\\:search']");
         }).then(() => {
             document.querySelector('[id*="socMatrixAttributeChar1\\:\\:_afrLovInternalQueryId\\:\\:search"]').click();
-            return waitForElement('[id*="\\:socMatrixAttributeChar1_afrtablegridcell\\:\\:c"] > div > div:nth-child(2) > table > tbody');
+            return delay(3000);
+            // return waitForElement('[id*="\\:socMatrixAttributeChar1_afrtablegridcell\\:\\:c"] > div > div:nth-child(2) > table > tbody');
         }).then(async () => {
             // if (document.querySelector('[id*="\\:socMatrixAttributeChar1_afrtablegridcell\\:\\:c"] > div > div:nth-child(2) > table > tbody') == null) {
             //     await scroll_up();
