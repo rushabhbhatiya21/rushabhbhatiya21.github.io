@@ -300,8 +300,63 @@ function set_task(index, task) {
     });
 }
 
+// function set_expenditure(index, type) {
+//     return new Promise((resolve, reject) =>{
+//         waitForElement('[title="Search: Expenditure Type"]').then(() => {
+//             document.querySelectorAll('[title="Search: Expenditure Type"]')[index].click();
+//             return waitForElement("[id*='\\:\\:dropdownPopup\\:\\:popupsearch']");
+//         }).then(() => {
+//             document.querySelector("[id*='\\:\\:dropdownPopup\\:\\:popupsearch']").click();
+//             return waitForElement("[id*='socMatrixAttributeChar1\\:\\:_afrLovInternalQueryId\\:\\:search']");
+//         }).then(() => {
+//             document.querySelector('[id*="socMatrixAttributeChar1\\:\\:_afrLovInternalQueryId\\:\\:search"]').click();
+//             return delay(3000);
+//             // return waitForElement('[id*="\\:socMatrixAttributeChar1_afrtablegridcell\\:\\:c"] > div > div:nth-child(2) > table > tbody');
+//         }).then(async () => {
+//             // if (document.querySelector('[id*="\\:socMatrixAttributeChar1_afrtablegridcell\\:\\:c"] > div > div:nth-child(2) > table > tbody') == null) {
+//             //     await scroll_up();
+//             //     resolve();
+//             //     set_expenditure(index,type);
+//             // }
+//             // document.querySelector('[id*="\:socMatrixAttributeChar1_afrtablegridcell\:\:c"] > div > div:nth-child(2) > table > tbody').querySelectorAll('tr.xem').forEach((tr) => {
+//             //     if(tr.innerText.trim().toLowerCase() == type.toLowerCase()){
+//             //         tr.click();
+//             //     }
+//             // })
+//             // return waitForElement("[id*='socMatrixAttributeChar1\\:\\:lovDialogId\\:\\:ok']");
+//             const tbody = document.querySelector('[id*="\\:socMatrixAttributeChar1_afrtablegridcell\\:\\:c"] > div > div:nth-child(2) > table > tbody');
+//                 if (tbody == null) {
+//                     document.querySelector('[id*="socMatrixAttributeChar1\\:\\:lovDialogId\\:\\:cancel"]').click();
+//                     delay(1000);
+//                     await scroll_up();
+//                     set_expenditure(index, type)
+//                     return;
+//                 }
+//                 tbody.querySelectorAll('tr.xem').forEach((tr) => {
+//                     if (tr.innerText.trim().toLowerCase() === type.toLowerCase()) {
+//                         tr.click();
+//                     }
+//                 });
+//                 return waitForElement("[id*='socMatrixAttributeChar1\\:\\:lovDialogId\\:\\:ok']");
+//         }).then(() => {
+//             document.querySelector('[id*="socMatrixAttributeChar1\\:\\:lovDialogId\\:\\:ok"]').click();
+//             resolve();
+//         }).catch((error) => {
+//             console.error("Error:", error);
+//             reject(error);
+//         });
+//     });
+// }
+
+let currentExpenditurePromise = null;
+
 function set_expenditure(index, type) {
-    return new Promise((resolve, reject) =>{
+    // If there is a pending promise, wait for it to resolve before starting a new one
+    if (currentExpenditurePromise) {
+        return currentExpenditurePromise.then(() => set_expenditure(index, type));
+    }
+
+    currentExpenditurePromise = new Promise((resolve, reject) => {
         waitForElement('[title="Search: Expenditure Type"]').then(() => {
             document.querySelectorAll('[title="Search: Expenditure Type"]')[index].click();
             return waitForElement("[id*='\\:\\:dropdownPopup\\:\\:popupsearch']");
@@ -311,42 +366,36 @@ function set_expenditure(index, type) {
         }).then(() => {
             document.querySelector('[id*="socMatrixAttributeChar1\\:\\:_afrLovInternalQueryId\\:\\:search"]').click();
             return delay(3000);
-            // return waitForElement('[id*="\\:socMatrixAttributeChar1_afrtablegridcell\\:\\:c"] > div > div:nth-child(2) > table > tbody');
         }).then(async () => {
-            // if (document.querySelector('[id*="\\:socMatrixAttributeChar1_afrtablegridcell\\:\\:c"] > div > div:nth-child(2) > table > tbody') == null) {
-            //     await scroll_up();
-            //     resolve();
-            //     set_expenditure(index,type);
-            // }
-            // document.querySelector('[id*="\:socMatrixAttributeChar1_afrtablegridcell\:\:c"] > div > div:nth-child(2) > table > tbody').querySelectorAll('tr.xem').forEach((tr) => {
-            //     if(tr.innerText.trim().toLowerCase() == type.toLowerCase()){
-            //         tr.click();
-            //     }
-            // })
-            // return waitForElement("[id*='socMatrixAttributeChar1\\:\\:lovDialogId\\:\\:ok']");
             const tbody = document.querySelector('[id*="\\:socMatrixAttributeChar1_afrtablegridcell\\:\\:c"] > div > div:nth-child(2) > table > tbody');
-                if (tbody == null) {
-                    document.querySelector('[id*="socMatrixAttributeChar1\\:\\:lovDialogId\\:\\:cancel"]').click();
-                    delay(1000);
-                    await scroll_up();
-                    set_expenditure(index, type)
-                    return;
+            if (tbody == null) {
+                document.querySelector('[id*="socMatrixAttributeChar1\\:\\:lovDialogId\\:\\:cancel"]').click();
+                await delay(1000);
+                await scroll_up();
+                resolve(); // Resolve the current promise before starting a new one
+                currentExpenditurePromise = null; // Clear the current promise
+                return set_expenditure(index, type); // Start the function again
+            }
+            tbody.querySelectorAll('tr.xem').forEach((tr) => {
+                if (tr.innerText.trim().toLowerCase() === type.toLowerCase()) {
+                    tr.click();
                 }
-                tbody.querySelectorAll('tr.xem').forEach((tr) => {
-                    if (tr.innerText.trim().toLowerCase() === type.toLowerCase()) {
-                        tr.click();
-                    }
-                });
-                return waitForElement("[id*='socMatrixAttributeChar1\\:\\:lovDialogId\\:\\:ok']");
+            });
+            return waitForElement("[id*='socMatrixAttributeChar1\\:\\:lovDialogId\\:\\:ok']");
         }).then(() => {
             document.querySelector('[id*="socMatrixAttributeChar1\\:\\:lovDialogId\\:\\:ok"]').click();
             resolve();
+            currentExpenditurePromise = null; // Clear the current promise
         }).catch((error) => {
             console.error("Error:", error);
             reject(error);
+            currentExpenditurePromise = null; // Clear the current promise on error
         });
     });
+
+    return currentExpenditurePromise;
 }
+
 
 async function set_hours_data(index, data) {
     // console.log("starting setting hours");
