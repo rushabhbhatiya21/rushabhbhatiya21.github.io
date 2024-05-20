@@ -380,21 +380,28 @@ async function fill_row_data(project, task, exType, hourList) {
                 if (continueFlag) {
                     return set_task(index, task);
                 }
+                console.log('inside set task, outside if');
+                return;
+                
             })
             .then(() => {
                 if (continueFlag) {
                     return delay(1500);
                 }
+                console.log('after set task, outside if');
+                return;
             })
             .then(() => {
                 if (continueFlag) {
                     return set_expenditure(index, exType);
                 }
+                return;
             })
             .then(() => {
                 if (continueFlag) {
                     return delay(1500);
                 }
+                return;
             })
             .then(async () => {
                 if (!continueFlag) {
