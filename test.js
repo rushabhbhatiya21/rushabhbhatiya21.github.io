@@ -33,8 +33,17 @@ function get_difference_in_days(dateString1, dateString2) {
 }
 
 function fill_person_number(val) {
-    document.querySelector('[id*="personName2Id\\:\\:_afrLovInternalQueryId\\:value10\\:\\:content"]').value = '';
-    document.querySelector('[aria-label=" Person Number"][id*="personName2Id"]').value = val;
+    return new Promise((resolve, reject) => {
+        waitForElement(`[id*='personName2Id\\:\\:_afrLovInternalQueryId\\:value00\\:\\:content']`).then(() => {
+            document.querySelector('[id*="personName2Id\\:\\:_afrLovInternalQueryId\\:value00\\:\\:content"]').value = '';
+            return waitForElement("[id*='personName2Id\\:\\:_afrLovInternalQueryId\\:value00\\:\\:content']");
+        }).then(() => {
+            document.querySelector('[aria-label=" Person Number"][id*="personName2Id"]').value = val;
+            resolve(); // Resolve the Promise when all operations are completed
+        }).catch((error) => {
+            reject(error); // Reject the Promise if there's an error
+        });
+    });
 }
 
 function fill_year(val, weekNo) {
