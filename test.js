@@ -333,28 +333,28 @@ async function add_new_row_below() {
 async function fill_row_data(project, task, exType, hourList) {
     return new Promise((resolve, reject) => {
         let index = cardState["rowNo"];
-        console.log("here0");
+        // console.log("here0");
         set_project(index, project)
         .then(() => {
-            console.log("here1");
+            // console.log("here1");
             return set_task(index, task);
         })
         .then(() => {
             return delay(1500);
         })
         .then(() => {
-            console.log("here2");
+            // console.log("here2");
             return set_expenditure(index, exType);
         })
         .then(() => {
             return delay(1500);
         })
         .then(async () => {
-            console.log("here3");
+            // console.log("here3");
             await set_hours_data(index, hourList);
-            console.log("abc");
             cardState["rowNo"] = index+1;
             await add_new_row_below();
+            console.log(index);
             await delay(1000);
             resolve();
         }).catch((error) => {
