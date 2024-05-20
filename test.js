@@ -321,7 +321,7 @@ async function set_hours_data(index, data) {
     let counter = 1;
     for(let i = cardState["startingDay"]; i <= cardState["endingDay"]; i++, counter++) {
         document.querySelectorAll(`input[id*="\\:m${counter}\\:\\:content"]`)[index].value = data[i];
-        // console.log("count", counter ,"data",  data[i], "index", index);
+        console.log("count", counter ,"data",  data[i], "index", index);
     }
 }
 
@@ -331,7 +331,7 @@ async function add_new_row_below() {
 }
 
 function scroll_down() {
-    document.querySelector('[id*="AT2\\:_ATp\\:ATt2\\:\\:vscroller"]');
+    document.querySelector('[id*="AT2\\:_ATp\\:ATt2\\:\\:vscroller"]').scrollBy(0, Number.MAX_SAFE_INTEGER);
 }
 
 async function fill_row_data(project, task, exType, hourList) {
@@ -359,7 +359,7 @@ async function fill_row_data(project, task, exType, hourList) {
             await delay(3000);
             cardState["rowNo"] = index+1;
             await add_new_row_below();
-            console.log("index after adding row below: ", index);
+            // console.log("index after adding row below: ", index);
             await delay(2000);
             scroll_down();
             await delay(1000);
