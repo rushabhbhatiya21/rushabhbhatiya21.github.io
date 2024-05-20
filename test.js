@@ -1,5 +1,5 @@
 function fill_data(valList) {
-    console.log("hello");
+    // console.log("hello");
     document.querySelector('[aria-label=" Person Number"').value = valList[0];
     document.querySelectorAll('[aria-label="dd-mmm-yyyy"')[0].value = valList[1];
     document.querySelectorAll('[aria-label="dd-mmm-yyyy"')[1].value = valList[2];
@@ -317,11 +317,11 @@ function set_expenditure(index, type) {
 }
 
 async function set_hours_data(index, data) {
-    console.log("starting setting hours");
+    // console.log("starting setting hours");
     let counter = 1;
     for(let i = cardState["startingDay"]; i <= cardState["endingDay"]; i++, counter++) {
         document.querySelectorAll(`input[id*="\\:m${counter}\\:\\:content"]`)[index].value = data[i];
-        console.log("count", counter ,"data",  data[i], "index", index);
+        // console.log("count", counter ,"data",  data[i], "index", index);
     }
 }
 
@@ -354,7 +354,7 @@ async function fill_row_data(project, task, exType, hourList) {
             await set_hours_data(index, hourList);
             cardState["rowNo"] = index+1;
             await add_new_row_below();
-            console.log(index);
+            console.log("index after adding row below: ", index);
             await delay(1000);
             resolve();
         }).catch((error) => {
