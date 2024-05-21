@@ -467,6 +467,7 @@ async function fill_row_data(project, task, exType, hourList) {
                 return;
             })
             .then(() => {
+                await scroll_up()
                 if (continueFlag) {
                     return set_expenditure(index, exType);
                 }
