@@ -444,7 +444,7 @@ async function scroll_down(x) {
 
 
 async function check_row(index){
-    if(document.querySelector(`tr[_afrrk='${index}']`) == null){
+    if(document.querySelector(`tr[_afrrk='${index}']`) != null){
         return;
     }else{
         document.querySelector(`tr[_afrrk='${index-1}']`).click();
