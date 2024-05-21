@@ -429,7 +429,7 @@ async function scroll_up() {
     const scroller = document.querySelector('[id*="AT2\\:_ATp\\:ATt2\\:\\:vscroller"]');
     if (scroller) {
         scroller.scrollBy(0, Number.MIN_SAFE_INTEGER);  // Scroll up
-        await delay(3000);              // Wait for 4 seconds
+        await delay(4000);              // Wait for 4 seconds
     } else {
         console.error('Scroller element not found');
     }
@@ -439,7 +439,7 @@ async function scroll_down() {
     const scroller = document.querySelector('[id*="AT2\\:_ATp\\:ATt2\\:\\:vscroller"]');
     if (scroller) {
         scroller.scrollBy(0, Number.MAX_SAFE_INTEGER);   // Scroll down
-        await delay(3000);              // Wait for 1 second
+        await delay(4000);              // Wait for 1 second
     } else {
         console.error('Scroller element not found');
     }
@@ -480,6 +480,7 @@ async function fill_row_data(project, task, exType, hourList) {
                 return;
             })
             .then(async () => {
+                await scroll_up();
                 if (!continueFlag) {
                     resolve();
                     return;
@@ -487,10 +488,10 @@ async function fill_row_data(project, task, exType, hourList) {
                 await set_hours_data(index, hourList);
                 await delay(3000);
                 cardState["rowNo"] = index + 1;
-                await add_new_row_below();
-                await delay(2000);
                 await scroll_down(); 
                 await delay(1000);
+                await add_new_row_below();
+                await delay(2000);
                 resolve();
             })
             .catch((error) => {
