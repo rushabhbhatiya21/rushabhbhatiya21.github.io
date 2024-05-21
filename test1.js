@@ -170,7 +170,7 @@ function set_card_state() {
     let startingDay = get_day_of_week(startingDate);
     let endingDay = get_day_of_week(endingDate);
     cardState["NumberOfAT"] = numberOfAT;
-    cardState["rowNo"] = 0;
+    cardState["rowNo"] = parseInt(document.querySelector('tr.xem').getAttribute('_afrrk'));
     cardState["startingDay"] = startingDay;
     cardState["endingDay"] = endingDay;
     if(numberOfAT == 0){
@@ -236,7 +236,7 @@ async function handle_data(excelDataString) {
 function set_project(index, project) {
         return new Promise((resolve, reject) => {
         waitForElement(`[id*='\\:socMatrixAttributeNumber2\\:\\:lovIconId']`).then(() => {
-            document.querySelectorAll(`[id*='\\:socMatrixAttributeNumber2\\:\\:lovIconId']`)[index].click();
+            document.querySelector(`tr[_afrrk="${index}"]`).querySelector(`[id*='\\:socMatrixAttributeNumber2\\:\\:lovIconId']`).click();
             return waitForElement("[id*='socMatrixAttributeNumber2\\:\\:dropdownPopup\\:\\:popupsearch']");
         }).then(() => {
             document.querySelector("[id*='socMatrixAttributeNumber2\\:\\:dropdownPopup\\:\\:popupsearch']").click();
@@ -253,17 +253,14 @@ function set_project(index, project) {
             // return waitForElement('[id*="socMatrixAttributeNumber2_afrLovInternalTableId::db"] > table > tbody > tr');
             return delay(3000);
         }).then(() => {
-            if (document.querySelector('[id*="socMatrixAttributeNumber2_afrLovInternalTableId::db"] > table > tbody > tr') == null && continueFlag == true) {
-                console.log('is null and should click on cancel');
+            if (document.querySelector('[id*="socMatrixAttributeNumber2_afrLovInternalTableId::db"] > table > tbody > tr') == null) {
                 continueFlag = false;
                 document.querySelector('[id*="socMatrixAttributeNumber2\\:\\:lovDialogId\\:\\:cancel"]').click();
-                
                 // cancel_action();
                 // resolve();
                 // return;
             }
             else {
-                console.log('is not null and should not click on cancel');
                 document.querySelectorAll('[id*="socMatrixAttributeNumber2_afrLovInternalTableId::db"] > table > tbody > tr')[0].click();
                 document.querySelector("[id*='\\:lovDialogId\\:\\:ok']").click();
             }
@@ -277,7 +274,7 @@ function set_project(index, project) {
 function set_task(index, task) {
         return new Promise((resolve, reject) =>{
         waitForElement(`[id*='\\:socMatrixAttributeNumber4\\:\\:lovIconId']`).then(() => {
-            document.querySelectorAll(`[id*='\\:socMatrixAttributeNumber4\\:\\:lovIconId']`)[index].click();
+            document.querySelector(`tr[_afrrk="${index}"]`).querySelector(`[id*='\\:socMatrixAttributeNumber4\\:\\:lovIconId']`).click();
             return waitForElement("[id*='socMatrixAttributeNumber4\\:\\:dropdownPopup\\:\\:popupsearch']");
         }).then(() => {
             document.querySelector("[id*='socMatrixAttributeNumber4\\:\\:dropdownPopup\\:\\:popupsearch']").click(); // Click popup search
@@ -306,20 +303,20 @@ function set_task(index, task) {
 function set_expenditure(index, type) {
     return new Promise((resolve, reject) =>{
         waitForElement('[id*="socMatrixAttributeChar1\\:\\:lovIconId"]').then(() => {
-            document.querySelectorAll('[id*="socMatrixAttributeChar1\\:\\:lovIconId"]')[index].click();
+            document.querySelector(`tr[_afrrk="${index}"]`).querySelector('[id*="socMatrixAttributeChar1\\:\\:lovIconId"]').click();
             return waitForElement("[id*='\\:\\:dropdownPopup\\:\\:popupsearch']");
         }).then(() => {
             document.querySelector("[id*='\\:\\:dropdownPopup\\:\\:popupsearch']").click();
             return waitForElement("[id*='socMatrixAttributeChar1\\:\\:_afrLovInternalQueryId\\:\\:search']");
         }).then(() => {
             document.querySelector('[id*="socMatrixAttributeChar1\\:\\:_afrLovInternalQueryId\\:\\:search"]').click();
-            return delay(3000);
-            // return waitForElement('[id*="\\:socMatrixAttributeChar1_afrtablegridcell\\:\\:c"] > div > div:nth-child(2) > table > tbody');
+            // return delay(3000);
+            return waitForElement('[id*="\\:socMatrixAttributeChar1_afrtablegridcell\\:\\:c"] > div > div:nth-child(2) > table > tbody');
         }).then(async () => {
-            if (document.querySelector('[id*="\\:socMatrixAttributeChar1_afrtablegridcell\\:\\:c"] > div > div:nth-child(2) > table > tbody') == null) {
-                document.querySelector('[id*="socMatrixAttributeChar1\\:\\:lovDialogId\\:\\:cancel"]').click();
-                set_expenditure(index,type);
-            }
+            // if (document.querySelector('[id*="\\:socMatrixAttributeChar1_afrtablegridcell\\:\\:c"] > div > div:nth-child(2) > table > tbody') == null) {
+            //     document.querySelector('[id*="socMatrixAttributeChar1\\:\\:lovDialogId\\:\\:cancel"]').click();
+            //     set_expenditure(index,type);
+            // }
             document.querySelector('[id*="\:socMatrixAttributeChar1_afrtablegridcell\:\:c"] > div > div:nth-child(2) > table > tbody').querySelectorAll('tr.xem').forEach((tr) => {
                 if(tr.innerText.trim().toLowerCase() == type.toLowerCase()){
                     tr.click();
@@ -403,7 +400,7 @@ async function set_hours_data(index, data) {
     // console.log("starting setting hours");
     let counter = 1;
     for(let i = cardState["startingDay"]; i <= cardState["endingDay"]; i++, counter++) {
-        document.querySelectorAll(`input[id*="\\:m${counter}\\:\\:content"]`)[index].value = data[i];
+        document.querySelector(`tr[_afrrk="${index}"]`).querySelector(`input[id*="\\:m${counter}\\:\\:content"]`).value = data[i];
         console.log("count", counter ,"data",  data[i], "index", index);
     }
 }
@@ -429,7 +426,7 @@ async function scroll_up(x) {
     const scroller = document.querySelector('[id*="AT2\\:_ATp\\:ATt2\\:\\:vscroller"]');
     if (scroller) {
         scroller.scrollBy(0, x);  // Scroll up
-        await delay(3000);              // Wait for 4 seconds
+        await delay(4000);              // Wait for 4 seconds
     } else {
         console.error('Scroller element not found');
     }
@@ -439,7 +436,7 @@ async function scroll_down(x) {
     const scroller = document.querySelector('[id*="AT2\\:_ATp\\:ATt2\\:\\:vscroller"]');
     if (scroller) {
         scroller.scrollBy(0, x);   // Scroll down
-        await delay(3000);              // Wait for 1 second
+        await delay(4000);
     } else {
         console.error('Scroller element not found');
     }
@@ -460,10 +457,9 @@ async function check_row(index){
 
 
 async function fill_row_data(project, task, exType, hourList) {
-    continueFlag = true;
     return new Promise((resolve, reject) => {
-        let index = cardState["rowNo"];
-        check_row(index + cardState["NumberOfAT"] + 1).then(()=> {
+        let index = cardState["rowNo"] + cardState["NumberOfAT"];
+        check_row(index).then(()=> {
             return set_project(index, project);
         })
             .then(() => {
