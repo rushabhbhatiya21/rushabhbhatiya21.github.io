@@ -6,17 +6,20 @@ function fill_data(valList) {
 }
 
 // Function to wait for an element to be present
-function waitForElement(selector) {
+function waitForElement(selector, attempts = 25) {
     return new Promise((resolve, reject) => {
         // Check if the element is present
         const element = document.querySelector(selector);
         if (element) {
-            resolve();
-        } else {
-            // If not present, wait for a short interval and check again
+            resolve(element);
+        } else if (attempts > 0) {
+            // If not present and attempts remain, wait for a short interval and check again
             setTimeout(() => {
-                waitForElement(selector).then(resolve);
+                waitForElement(selector, attempts - 1).then(resolve).catch(reject);
             }, 1000); // Adjust the interval as needed
+        } else {
+            // If no attempts remain, reject the promise
+            reject(new Error(`Element with selector "${selector}" not found after 25 attempts`));
         }
     });
 }
@@ -206,36 +209,40 @@ function delay(ms) {
 }
 
 async function handle_data(excelDataString) {
-    let excelData = excelDataString.split("~");
-    let Project = excelData[0];
-    let Task = excelData[1];
-    let expanditureTask = excelData[2];
-    let excelHour = excelData.slice(3,10);
-    if(cardState["NumberOfAT"] > 0 && expanditureTask != "Extra Hours - Employee"){
-        let absTypeDict = cardState["AbsentType"];
-        for(let absType in absTypeDict){
-            let initHour = ['', '', '', '', '', '', ''];
-            let conflictingHour = absTypeDict[absType];
-            for(let i = cardState["startingDay"]; i<= cardState["endingDay"]; i++){
-                if(conflictingHour[i]){
-                    initHour[i] = excelHour[i];
-                    excelHour[i] = '';
+    try {
+        let excelData = excelDataString.split("~");
+        let Project = excelData[0];
+        let Task = excelData[1];
+        let expanditureTask = excelData[2];
+        let excelHour = excelData.slice(3,10);
+        if(cardState["NumberOfAT"] > 0 && expanditureTask != "Extra Hours - Employee"){
+            let absTypeDict = cardState["AbsentType"];
+            for(let absType in absTypeDict){
+                let initHour = ['', '', '', '', '', '', ''];
+                let conflictingHour = absTypeDict[absType];
+                for(let i = cardState["startingDay"]; i<= cardState["endingDay"]; i++){
+                    if(conflictingHour[i]){
+                        initHour[i] = excelHour[i];
+                        excelHour[i] = '';
+                    }
+                }
+                if(!is_hour_list_empty(initHour)){
+                    await fill_row_data(Project, Task, absType, initHour);
                 }
             }
-            if(!is_hour_list_empty(initHour)){
-                await fill_row_data(Project, Task, absType, initHour);
-            }
         }
-    }
-    if(!is_hour_list_empty(excelHour)){
-        await fill_row_data(Project, Task, expanditureTask, excelHour);
+        if(!is_hour_list_empty(excelHour)){
+            await fill_row_data(Project, Task, expanditureTask, excelHour);
+        }
+    } catch (error) {
+        return error;
     }
 }
 
 
 function set_project(index, project) {
         return new Promise((resolve, reject) => {
-        waitForElement(`[id*='\\:socMatrixAttributeNumber2\\:\\:lovIconId']`).then(() => {
+        waitForElement(`[id*='\\:socMatrixAttributeNumber2\\:\\:lovIconIdss']`).then(() => {
             document.querySelector(`tr[_afrrk="${index}"]`).querySelector(`[id*='\\:socMatrixAttributeNumber2\\:\\:lovIconId']`).click();
             return waitForElement("[id*='socMatrixAttributeNumber2\\:\\:dropdownPopup\\:\\:popupsearch']");
         }).then(() => {
@@ -496,8 +503,7 @@ async function fill_row_data(project, task, exType, hourList) {
                 resolve();
             })
             .catch((error) => {
-                reject();
-                throw error;
+                reject(error);
             });
     });
 }
