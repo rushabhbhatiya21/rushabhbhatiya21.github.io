@@ -315,9 +315,6 @@ function set_expenditure(index, type) {
         }).then(async () => {
             if (document.querySelector('[id*="\\:socMatrixAttributeChar1_afrtablegridcell\\:\\:c"] > div > div:nth-child(2) > table > tbody') == null) {
                 document.querySelector('[id*="socMatrixAttributeChar1\\:\\:lovDialogId\\:\\:cancel"]').click();
-                delay(1000);
-                await scroll_up();
-                // resolve();
                 set_expenditure(index,type);
             }
             document.querySelector('[id*="\:socMatrixAttributeChar1_afrtablegridcell\:\:c"] > div > div:nth-child(2) > table > tbody').querySelectorAll('tr.xem').forEach((tr) => {
@@ -353,7 +350,7 @@ function set_expenditure(index, type) {
 // let currentExpenditurePromise = null;
 
 // function set_expenditure(index, type) {
-//     // If there is a pending promise, wait for it to resolve before starting a new one
+// If there is a pending promise, wait for it to resolve before starting a new one
 //     if (currentExpenditurePromise) {
 //         return currentExpenditurePromise.then(() => set_expenditure(index, type));
 //     }
@@ -425,39 +422,50 @@ async function add_new_row_below() {
 //     }
 // }
 
-async function scroll_up() {
+async function scroll_up(x) {
     const scroller = document.querySelector('[id*="AT2\\:_ATp\\:ATt2\\:\\:vscroller"]');
     if (scroller) {
-        scroller.scrollBy(0, Number.MIN_SAFE_INTEGER);  // Scroll up
+        scroller.scrollBy(0, x);  // Scroll up
         await delay(4000);              // Wait for 4 seconds
     } else {
         console.error('Scroller element not found');
     }
 }
 
-async function scroll_down() {
+async function scroll_down(x) {
     const scroller = document.querySelector('[id*="AT2\\:_ATp\\:ATt2\\:\\:vscroller"]');
     if (scroller) {
-        scroller.scrollBy(0, Number.MAX_SAFE_INTEGER);   // Scroll down
+        scroller.scrollBy(0, x);   // Scroll down
         await delay(4000);              // Wait for 1 second
     } else {
         console.error('Scroller element not found');
     }
 }
 
+
+async function check_row(index){
+    if(document.querySelector(`tr[_afrrk='${index}']`) == null){
+        return
+    }else{
+        document.querySelector(`tr[_afrrk='${index-1}']`).click();
+        document.querySelector('img[id*="ctb1\\:\\:icon"]').click();
+        await delay(3000);
+    }
+}
+
+
 async function fill_row_data(project, task, exType, hourList) {
-    await scroll_up();
     return new Promise((resolve, reject) => {
         let index = cardState["rowNo"];
-
-        set_project(index, project)
+        check_row(index + cardState["NumberOfAT"]).then(()=> {
+            return set_project(index, project);
+        })
             .then(() => {
                 if (continueFlag) {
                     return set_task(index, task);
                 }
                 console.log('inside set task, outside if');
                 return;
-                
             })
             .then(() => {
                 if (continueFlag) {
@@ -467,9 +475,8 @@ async function fill_row_data(project, task, exType, hourList) {
                 return;
             })
             .then(async () => {
-                await scroll_up();
                 if (continueFlag) {
-                    return set_expenditure(index, exType);
+                    return F(index, exType);
                 }
                 return;
             })
@@ -480,7 +487,6 @@ async function fill_row_data(project, task, exType, hourList) {
                 return;
             })
             .then(async () => {
-                await scroll_up();
                 if (!continueFlag) {
                     resolve();
                     return;
@@ -488,10 +494,6 @@ async function fill_row_data(project, task, exType, hourList) {
                 await set_hours_data(index, hourList);
                 await delay(3000);
                 cardState["rowNo"] = index + 1;
-                await scroll_down(); 
-                await delay(1000);
-                await add_new_row_below();
-                await delay(2000);
                 resolve();
             })
             .catch((error) => {
