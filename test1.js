@@ -445,11 +445,13 @@ async function scroll_down(x) {
 
 async function check_row(index){
     if(document.querySelector(`tr[_afrrk='${index}']`) == null){
-        return
+        return;
     }else{
         document.querySelector(`tr[_afrrk='${index-1}']`).click();
         document.querySelector('img[id*="ctb1\\:\\:icon"]').click();
         await delay(3000);
+        await scroll_down(50);
+        return;
     }
 }
 
