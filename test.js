@@ -466,8 +466,8 @@ async function fill_row_data(project, task, exType, hourList) {
                 console.log('after set task, outside if');
                 return;
             })
-            .then(() => {
-                await scroll_up()
+            .then(async () => {
+                await scroll_up();
                 if (continueFlag) {
                     return set_expenditure(index, exType);
                 }
