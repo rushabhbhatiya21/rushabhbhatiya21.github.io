@@ -170,7 +170,7 @@ function set_card_state() {
     let startingDay = get_day_of_week(startingDate);
     let endingDay = get_day_of_week(endingDate);
     cardState["NumberOfAT"] = numberOfAT;
-    cardState["rowNo"] = parseInt(document.querySelector('tr.xem').getAttribute('_afrrk'));
+    cardState["rowNo"] = parseInt(document.querySelector('tr.xem').getAttribute('_afrrk')) + numberOfAT;
     cardState["startingDay"] = startingDay;
     cardState["endingDay"] = endingDay;
     if(numberOfAT == 0){
@@ -458,7 +458,7 @@ async function check_row(index){
 
 async function fill_row_data(project, task, exType, hourList) {
     return new Promise((resolve, reject) => {
-        let index = cardState["rowNo"] + cardState["NumberOfAT"];
+        let index = cardState["rowNo"];
         check_row(index).then(()=> {
             return set_project(index, project);
         })
