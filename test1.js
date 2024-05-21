@@ -253,14 +253,17 @@ function set_project(index, project) {
             // return waitForElement('[id*="socMatrixAttributeNumber2_afrLovInternalTableId::db"] > table > tbody > tr');
             return delay(3000);
         }).then(() => {
-            if (document.querySelector('[id*="socMatrixAttributeNumber2_afrLovInternalTableId::db"] > table > tbody > tr') == null) {
+            if (document.querySelector('[id*="socMatrixAttributeNumber2_afrLovInternalTableId::db"] > table > tbody > tr') == null && continueFlag == true) {
+                console.log('is null and should click on cancel');
                 continueFlag = false;
                 document.querySelector('[id*="socMatrixAttributeNumber2\\:\\:lovDialogId\\:\\:cancel"]').click();
+                
                 // cancel_action();
                 // resolve();
                 // return;
             }
             else {
+                console.log('is not null and should not click on cancel');
                 document.querySelectorAll('[id*="socMatrixAttributeNumber2_afrLovInternalTableId::db"] > table > tbody > tr')[0].click();
                 document.querySelector("[id*='\\:lovDialogId\\:\\:ok']").click();
             }
@@ -426,7 +429,7 @@ async function scroll_up(x) {
     const scroller = document.querySelector('[id*="AT2\\:_ATp\\:ATt2\\:\\:vscroller"]');
     if (scroller) {
         scroller.scrollBy(0, x);  // Scroll up
-        await delay(4000);              // Wait for 4 seconds
+        await delay(3000);              // Wait for 4 seconds
     } else {
         console.error('Scroller element not found');
     }
@@ -436,7 +439,7 @@ async function scroll_down(x) {
     const scroller = document.querySelector('[id*="AT2\\:_ATp\\:ATt2\\:\\:vscroller"]');
     if (scroller) {
         scroller.scrollBy(0, x);   // Scroll down
-        await delay(4000);              // Wait for 1 second
+        await delay(3000);              // Wait for 1 second
     } else {
         console.error('Scroller element not found');
     }
@@ -457,6 +460,7 @@ async function check_row(index){
 
 
 async function fill_row_data(project, task, exType, hourList) {
+    continueFlag = true;
     return new Promise((resolve, reject) => {
         let index = cardState["rowNo"];
         check_row(index + cardState["NumberOfAT"] + 1).then(()=> {
