@@ -425,8 +425,7 @@ async function add_new_row_below() {
 async function scroll_up(x) {
     const scroller = document.querySelector('[id*="AT2\\:_ATp\\:ATt2\\:\\:vscroller"]');
     if (scroller) {
-        scroller.scrollBy(0, x);  // Scroll up
-        await delay(4000);              // Wait for 4 seconds
+        scroller.scrollBy(0, x);
     } else {
         console.error('Scroller element not found');
     }
@@ -435,8 +434,7 @@ async function scroll_up(x) {
 async function scroll_down(x) {
     const scroller = document.querySelector('[id*="AT2\\:_ATp\\:ATt2\\:\\:vscroller"]');
     if (scroller) {
-        scroller.scrollBy(0, x);   // Scroll down
-        await delay(4000);
+        scroller.scrollBy(0, x);   
     } else {
         console.error('Scroller element not found');
     }
@@ -447,9 +445,8 @@ async function check_row(index){
     if(document.querySelector(`tr[_afrrk='${index}']`) != null){
         return;
     }else{
-        document.querySelector(`tr[_afrrk='${index-1}']`).click();
         document.querySelector('img[id*="ctb1\\:\\:icon"]').click();
-        await delay(3000);
+        await waitForElement(`tr[_afrrk='${index}']`);
         await scroll_down(50);
         return;
     }
