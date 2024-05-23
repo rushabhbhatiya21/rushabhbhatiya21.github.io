@@ -129,8 +129,13 @@ async function extract_time_card_data(counter) {
     current_row_number++;
     await scroll_down(50);
   }
-  current_time_card_data.map(element => element[0].split('(')[1].split(')')[0]);
-  console.log(current_time_card_data);
+  current_time_card_data.map(element => {
+    if(element[3] != ''){
+        element[3] = element[3].split('(')[1].split(')')[0];
+    }
+    return element;
+  });
+  // console.log(current_time_card_data);
 
   //create csv file and add current_time_card_data data in it
   convert_to_csv(current_time_card_data);
