@@ -116,6 +116,7 @@ async function get_number_of_time_cards() {
 //all data will be saved in csv file and file will be downloaded
 async function extract_time_card_data(counter) {
   let current_time_card_data = [];
+  console.log(counter);
   document.querySelectorAll(`[id*=':pgl5']`)[counter].click();
   await waitForElement('[id*=":AP1\\:SPc"]>a[accesskey="C"]');
   let [startingDate, endingDate] = document.querySelector("[id$=':tcDetails'] > table > tbody > tr > td.x1b0").innerText.split(" : ")[1].split(" - ");
