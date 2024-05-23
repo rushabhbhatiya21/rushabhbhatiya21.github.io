@@ -243,7 +243,7 @@ async function handle_data(excelDataString) {
 
 function set_project(index, project) {
         return new Promise((resolve, reject) => {
-        waitForElement(`[id*='\\:socMatrixAttributeNumber2\\:\\:lovIconIdss']`).then(() => {
+        waitForElement(`[id*='\\:socMatrixAttributeNumber2\\:\\:lovIconId']`).then(() => {
             document.querySelector(`tr[_afrrk="${index}"]`).querySelector(`[id*='\\:socMatrixAttributeNumber2\\:\\:lovIconId']`).click();
             return waitForElement("[id*='socMatrixAttributeNumber2\\:\\:dropdownPopup\\:\\:popupsearch']");
         }).then(() => {
