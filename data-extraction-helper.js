@@ -88,8 +88,13 @@ function fill_person_data(person_data) {
 //get number of time card which exists
 //input - none
 //output - int (number of time cards)
-function get_number_of_time_cards() {
-  return document.querySelectorAll(`[id*=':pgl5']`).length;
+async function get_number_of_time_cards() {
+  try {
+    await waitForElement("[id*=':pgl5']", 5);
+    return document.querySelectorAll(`[id*=':pgl5']`).length;
+  } catch (error) {
+    return 0; // or any value indicating that the element was not found
+  }
 }
 
 //extarct all data of 1 time card
