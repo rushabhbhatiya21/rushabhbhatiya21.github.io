@@ -151,7 +151,7 @@ async function extract_time_card_data(counter) {
 //output - none
 function convert_to_csv(data) {
   // Convert data to CSV format
-  const csvContent = data.map(row => row.join("~~")).join("\n");
+  const csvContent = data.map(row => row.join("~")).join("\n");
 
   // Create a blob from the CSV content
   const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
