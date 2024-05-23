@@ -69,8 +69,11 @@ function check_next_page() {
   //if bar exists or not
   if (document.querySelector('a[id*=":nb_nx"][title="Next Page"]') == null) return false;
 
+  let flag = document.querySelector('a[id*=":nb_nx"][title="Next Page"]').classList.contains('p_AFDisabled');
+  document.querySelector('a[id*=":nb_nx"][title="Next Page"]').click();
+
   //if next button is disbled
-  return (!document.querySelector('a[id*=":nb_nx"][title="Next Page"]').classList.contains('p_AFDisabled'));
+  return (!flag);
 }
 
 //click on cancel button
@@ -115,7 +118,6 @@ async function get_number_of_time_cards() {
 //output - none
 //all data will be saved in csv file and file will be downloaded
 async function extract_time_card_data(counter) {
-  console.error('error here');
   let current_time_card_data = [];
   document.querySelectorAll(`[id*=':pgl5']`)[counter].click();
   await waitForElement('[id*=":AP1\\:SPc"]>a[accesskey="C"]');
@@ -149,7 +151,7 @@ async function extract_time_card_data(counter) {
 //output - none
 function convert_to_csv(data) {
   // Convert data to CSV format
-  const csvContent = data.map(row => row.join(",")).join("\n");
+  const csvContent = data.map(row => row.join("~~")).join("\n");
 
   // Create a blob from the CSV content
   const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -178,19 +180,19 @@ function extract_row_data(current_row_number) {
     const length_of_row = current_row_element.querySelectorAll('input').length;
     if (length_of_row == 0) {
       //annual leave
-      console.log('annual leave');
+      // console.log('annual leave');
       resolve(extract_row_data_absence_case(current_row_element));
     }
     else if (length_of_row < 11) {
       //leaver/joiner case
-      console.log('leaver/joiner case');
+      // console.log('leaver/joiner case');
       const starting_day = get_day_of_week(current_person_data[1]);
       const ending_day = get_day_of_week(current_person_data[2]);
       resolve(extract_row_data_leaver_joiner_case(current_row_element, starting_day, ending_day));
     }
     else {
       //ideal case
-      console.log('ideal case');
+      // console.log('ideal case');
       resolve(extract_row_data_ideal_case(current_row_element));
     }
   })
