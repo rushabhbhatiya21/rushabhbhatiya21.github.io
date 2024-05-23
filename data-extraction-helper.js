@@ -66,9 +66,10 @@ function get_day_of_week(dateString) {
 //input - none
 //output - none
 function cancel_action() {
-  document.querySelector('[id*=":AP1\\:SPc"]>a[accesskey="C"]').click();
-  waitForElement('[id*=":pgl5"]').then(() => {
-      return;
+  return new Promise((resolve) => {
+    document.querySelector('[id*=":AP1\\:SPc"]>a[accesskey="C"]').click();
+    waitForElement('[id*=":pgl5"]').then(() => {
+    resolve();
   });
 }
 
@@ -117,6 +118,8 @@ async function extract_time_card_data(counter) {
     await scroll_down(50);
   }
   console.log(current_time_card_data);
+
+  await cancel_action();
 
   //create csv file and add current_time_card_data data in it
 }
