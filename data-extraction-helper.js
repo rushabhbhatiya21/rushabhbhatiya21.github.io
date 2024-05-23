@@ -92,13 +92,18 @@ function cancel_action() {
 //fill person number and dates
 //input - str (saperated by '~' containing person number, from date, to date)
 //output - none
-async function fill_person_data(person_data) {
+async function fill_person_data(person_data, attempts = 2) {
   person_data = person_data.split('~');
   document.querySelector('input[id*="qryId1\\:value10\\:\\:content"]').value = person_data[0].toString(); //person number
   document.querySelector('input[id*="qryId1\\:value40\\:\\:content"]').value = person_data[1].toString(); //from date
   document.querySelector('input[id*="qryId1\\:value50\\:\\:content"]').value = person_data[2].toString(); //to date
   await delay(1000);
   document.querySelector('button[id*="qryId1\\:\\:search"]').click(); //click on search
+  if (document.querySelector('span.p_AFError') != null && attempts > 0) {
+    document.querySelector("[id*='mode']").click();
+    document.querySelector("[id*='mode']").click();
+    fill_person_data(person_data, attempts-1);
+  }
   current_person_data = [...person_data];
 }
 
