@@ -102,6 +102,7 @@ async function fill_person_data(person_data) {
   if (document.querySelector('span.p_AFError') != null) {
     document.querySelector("[id*='mode']").click();
     document.querySelector("[id*='mode']").click();
+    await delay(1000);
     document.querySelector('button[id*="qryId1\\:\\:search"]').click(); //click on search
   }
   current_person_data = [...person_data];
