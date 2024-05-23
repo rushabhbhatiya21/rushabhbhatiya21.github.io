@@ -120,9 +120,35 @@ async function extract_time_card_data(counter) {
   }
   console.log(current_time_card_data);
 
-  await cancel_action();
-
   //create csv file and add current_time_card_data data in it
+  convert_to_csv(current_time_card_data);
+
+  await cancel_action();
+}
+
+//put all data into csv file and download that file
+//input - array[][] (current_time_card_data - array of array)
+//output - none
+function convert_to_csv(data) {
+  // Convert data to CSV format
+  const csvContent = data.map(row => row.join(",")).join("\n");
+
+  // Create a blob from the CSV content
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+
+  // Create a link element
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'example.csv';
+
+  // Append the link to the body and trigger the download
+  document.body.appendChild(a);
+  a.click();
+
+  // Clean up
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }
 
 //extract row data
