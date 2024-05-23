@@ -209,6 +209,7 @@ function delay(ms) {
 }
 
 async function handle_data(excelDataString) {
+    console.error('excelDataString', excelDataString);
     try {
         let excelData = excelDataString.split("~");
         let Project = excelData[0];
