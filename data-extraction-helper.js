@@ -135,7 +135,7 @@ async function extract_time_card_data(counter) {
   }
   current_time_card_data.map(element => {
     if(element[3] != ''){
-        element[3] = element[3].split('(')[1].split(')')[0];
+        element[3] = element[3].split('(').at(-1).split(')')[0];
     }
     return element;
   });
