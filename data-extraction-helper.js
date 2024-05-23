@@ -116,7 +116,7 @@ async function extract_time_card_data(counter) {
     current_row_number++;
     await scroll_down(50);
   }
-  return current_time_card_data;
+  console.log(current_time_card_data);
 
   //create csv file and add current_time_card_data data in it
 }
