@@ -69,8 +69,9 @@ function cancel_action() {
   return new Promise((resolve) => {
     document.querySelector('[id*=":AP1\\:SPc"]>a[accesskey="C"]').click();
     waitForElement('[id*=":pgl5"]').then(() => {
-    resolve();
-  });
+      resolve();
+    });
+  })
 }
 
 
