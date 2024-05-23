@@ -62,6 +62,17 @@ function get_day_of_week(dateString) {
   return date.getDay();
 }
 
+//check if pagination exists or if next button of pagination is disabled
+//input - none
+//output - bool
+function check_next_page() {
+  //if bar exists or not
+  if (document.querySelector('a[id*=":nb_nx"][title="Next Page"]') == null) return false;
+
+  //if next button is disbled
+  return (!document.querySelector('a[id*=":nb_nx"][title="Next Page"]').classList.contains('p_AFDisabled'));
+}
+
 //click on cancel button
 //input - none
 //output - none
@@ -118,6 +129,7 @@ async function extract_time_card_data(counter) {
     current_row_number++;
     await scroll_down(50);
   }
+  current_time_card_data.map(element => element[0].split('(')[1].split(')')[0]);
   console.log(current_time_card_data);
 
   //create csv file and add current_time_card_data data in it
@@ -140,7 +152,7 @@ function convert_to_csv(data) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'example.csv';
+  a.download = `${data[0][0]}Processing.csv`;
 
   // Append the link to the body and trigger the download
   document.body.appendChild(a);
