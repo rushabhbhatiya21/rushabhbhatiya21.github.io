@@ -463,6 +463,7 @@ async function check_row(index){
 
 async function fill_row_data(project, task, exType, hourList) {
     return new Promise((resolve, reject) => {
+        continueFlag = true;
         let index = cardState["rowNo"];
         check_row(index).then(()=> {
             return set_project(index, project);
